@@ -1,25 +1,44 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Navbar from './navbar';
+import Countries from './Countries';
+import Countriespage from './Countriespage';
+import Resolutions from './Resolutions';
+import Resolutionspage from './Resolutionspage';
+
+
+import { BrowserRouter as Router, Link, Route, Switch, useParams } from 'react-router-dom';
+// function BlogPost() {
+//   let { countryID } = useParams();
+  
+//   return <div>Now showing post {countryID}</div>;
+// }
+
+class App extends React.Component {
+
+
+
+    render () {
+        return (
+          <div id = "out-route">
+          <Navbar/>
+            <Switch>
+            <Route path="/countries/:countryID" component = {Countriespage}>
+            </Route>
+            <Route path="/resolutions/:resID" component = {Resolutionspage}>
+            </Route>
+            <Route exact path="/countries"  component = {Countriespage} />
+           <Route exact path="/resolutions"  component = {Resolutionspage}/> 
+           </Switch>
+           </div>
+
+        )
+    }
 }
 
 export default App;
+
+
