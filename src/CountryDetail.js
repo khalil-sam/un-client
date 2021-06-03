@@ -7,12 +7,18 @@ class CountryDetail extends React.Component {
     constructor(props){
         super(props);
         this.state= {
-            currentCountry : {},
-            list_resolutions : []
+            currentCountry : "",
+            list_resolutions : [],
+            // empty_c : True,
+            page_num : 1
         }
+        this.IncrementItem = this.IncrementItem.bind(this);
+
     }
 
-
+  IncrementItem = () => {
+    this.setState({ page_num: this.state.page_num + 1 });
+  }
     render() {
         const baseURL = 'http://localhost:8081';
         let country = this.props.match.params.countryID;
@@ -21,6 +27,12 @@ class CountryDetail extends React.Component {
         console.log("fetch :", s);
 
         let res = []
+
+        let isCountry = false ;
+        if (country != undefined){
+            isCountry = true
+        };
+
 
         
         fetch(s)
@@ -33,6 +45,9 @@ class CountryDetail extends React.Component {
             console.log("return res:", res);
             })
         return (
+            <div>
+            
+
             
                 <div className="Country">
                 <h2> {country} </h2>
@@ -51,10 +66,19 @@ class CountryDetail extends React.Component {
 
 
     }
+      </div>
+      {isCountry ?       
+<div style={{position : "relative", left :"60%"}}>
+<button onClick={this.IncrementItem} class="slideUpBtn">
+</button>
+{this.state.page_num}
+</div>  : 'Please select a country'}
+
+      
+    </div>
 
     
-     </div>
-
+   
 
 
 

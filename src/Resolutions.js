@@ -8,6 +8,8 @@ class Resolutions extends React.Component {
         this.state = {
             resolutions : []
         }
+        let params = {pagesize : 3};
+        // body: JSON.stringify(data)
         fetch ('http://localhost:8081/resolutions')
         .then(response => response.json())
         .then(r => {

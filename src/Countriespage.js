@@ -32,10 +32,8 @@ class Countriespage extends React.Component {
                 <main className="main" >
                 <CountryDetail country = {this.state.currentCountry}/>
                 
-                <section className="companions">
                 
-                
-                </section>
+
                 </main>
 
             </div>
