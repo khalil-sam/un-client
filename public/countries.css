@@ -42,5 +42,103 @@ body {font-family: "Lato", sans-serif;}
   border: 1px solid #ccc;
   width: 70%;
   border-left: none;
-  height: 300px;
+  height: 100%;
+}
+.arrowFromLeft {
+    overflow: hidden;
+    padding: 12px 30px;
+    border-radius: 6px;
+    background-color: hsl(222, 100%, 95%);
+    color: hsl(243, 80%, 62%);
+    position: relative;
+}
+
+.arrowFromLeft div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrowFromLeft:hover span {
+    transform: translateX(15px);
+}
+
+.arrowFromLeft:hover svg {
+    opacity: 1;
+    transform: translate(15px, -50%);
+}
+
+.arrowFromLeft span {
+    display: inline-block;
+    transition: transform .3s cubic-bezier(.455,.03,.515,.955);
+}
+
+.arrowFromLeft svg {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    fill: hsl(243, 80%, 62%);
+    opacity: 0;
+    transform: translate(-10px, -50%);
+    transition: opacity .3s .05s cubic-bezier(.455,.03,.515,.955), transform .3s .05s cubic-bezier(.455,.03,.515,.955);
+}
+.slideUpBtn {
+    padding: 12px 35px;
+    background-color: transparent;
+    border: 2px solid hsl(243, 80%, 62%);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(1,.15,.34,.92)
+}
+
+.slideUpBtn span {
+    display: inline-block;
+    transition: inherit;
+    color: hsl(243, 80%, 62%);
+}
+
+.slideUpBtn:hover span {
+    opacity: 0;
+    transform: translateY(-100%)
+}
+
+.slideUpBtn::before {
+    content: "";
+    background-color: hsl(243, 80%, 62%);;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: translateY(100%);
+    transition: inherit;
+    width: 100%;
+    transition: transform 0.5s cubic-bezier(1,.15,.34,.92)
+}
+
+.slideUpBtn::after {
+    content: 'Hover me';
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: inherit;
+    transform: translateY(100%);
+    width: 100%;
+
+}
+
+.slideUpBtn:hover::before {
+    transform: translateY(0) scale(3);
+    transition-delay: .025s;
+}
+
+.slideUpBtn:hover::after {
+    opacity: 1;
+    color: hsl(222, 100%, 95%);
+    transform: translateY(0);
 }

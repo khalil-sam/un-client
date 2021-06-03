@@ -9,6 +9,12 @@ class Navbar extends React.Component {
                 <header className="header">
                                     <nav>
                     <Link to={`/countries`}>
+                    Home
+                    </Link>
+                    <Link to={`/countries`}>
+                    About
+                    </Link>
+                    <Link to={`/countries`}>
                     Countries
                     </Link>
                     <Link to={`/resolutions`}>

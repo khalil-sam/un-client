@@ -28,10 +28,6 @@ class Resolutionspage extends React.Component {
             <div class="tabcontent">
                 <main className="main" >
                 <ResolutionDetail resolution_id = {this.state.currentResolution.resid}/>
-                <section className="companions">
-                
-                    other details
-                </section>
                 </main>
 
             </div>
