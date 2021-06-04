@@ -24,11 +24,11 @@ class Countriespage extends React.Component {
 
         return (
             <div>
-            <div class="tab">
+            <div className="tab">
             
                 <Countries onCountrySelection = {this.handleCountrySelection}/>
             </div>
-            <div class="tabcontent">
+            <div className="tabcontent">
                 <main className="main" >
                 <CountryDetail country = {this.state.currentCountry}/>
                 

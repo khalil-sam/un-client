@@ -1,13 +1,14 @@
 import React from 'react';
 import Countries from './Countries' 
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+//import { groupPatternsByBaseDirectory } from 'fast-glob/out/managers/tasks';
 class Navbar extends React.Component {  
 
     render () {
         return (
             <div id= "in-nav">
                 <header className="header">
-                                    <nav>
+                    <nav>
                     <Link to={`/`}>
                     Home
                     </Link>
@@ -22,16 +23,9 @@ class Navbar extends React.Component {
                     </Link>
                 </nav>
                 </header>
-
-            </div>
-            
-                 
-            
-
-               
+            </div>      
         )
     }
-
 }
 
 export default Navbar;

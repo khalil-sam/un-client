@@ -16,6 +16,7 @@ class Resolutions extends React.Component {
         this.handleSelection = this.handleSelection.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
 
+        
     }
     
     handleSelection(ev){
@@ -23,12 +24,25 @@ class Resolutions extends React.Component {
         const result = this.state.resolutions.filter(res => res.resid == target)[0]        
         this.props.onResolutionSelection(result)
     }
+
     handleDropdownChange(e) {
-    this.setState({ year: e.target.value });
-  }
+        console.log("Resolutions handleDropdownChange: year="+e.target.value);
+        this.setState({ year: e.target.value });
+
+        let s = 'http://localhost:8081/resolutions' + "?year=" + e.target.value
+        fetch (s)
+        .then(response => response.json())
+        .then(r => {
+            this.setState({
+                resolutions : r
+            })
+        })
+    }
  
 
     render () {
+
+        /*
         let s = 'http://localhost:8081/resolutions' + "?year=" + this.state.year
         fetch (s)
         .then(response => response.json())
@@ -37,6 +51,8 @@ class Resolutions extends React.Component {
                 resolutions : r
             })
         })
+        */
+
         console.log("state:",this.state.resolutions);
         return (
 
@@ -44,6 +60,11 @@ class Resolutions extends React.Component {
             <select id="year" name="year" class = "box" onChange={this.handleDropdownChange}>
 <option>year</option>
 
+{/*
+    let years = [];
+    /
+    years
+*/}
 <option value="1946">1946</option>
 <option value="1947">1947</option>
 <option value="1948">1948</option>
@@ -118,17 +139,18 @@ class Resolutions extends React.Component {
 <option value="2017">2017</option>
 <option value="2018">2018</option>
 <option value="2019">2019</option>
-<option value="2020">2020</option>
 </select> 
 
 
 
-              <Suspense fallback={<h1>Still Loading…</h1>}>
+                <Suspense fallback={<h1>Still Loading…</h1>}>
                     {this.state.resolutions.map(res => 
                     <Link to={"/resolutions/"+res.resid}> 
-                    <button class="tablinks" data-key = {res.resid} onClick={this.handleSelection} id={res.resid}>{res.unres} </button>
+                    <button class="tablinks" data-key = {res.resid} onClick={this.handleSelection} id={res.resid}>
+                    {res.unres} : {res.short}
+                    </button>
                     </Link>)}
-                                </Suspense>
+                </Suspense>
 
         </aside>
         )

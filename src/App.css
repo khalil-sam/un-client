@@ -181,3 +181,9 @@
 .box select option {
   padding: 30px;
 }
+
+nav {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 15px
+}

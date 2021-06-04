@@ -106,7 +106,58 @@ class ResolutionDetail extends React.Component {
             unres : "",
             year : "",
             yes : 0,
-        }}
+            short : ""
+        }
+
+        /*
+        const baseURL = 'http://localhost:8081';
+        let s = baseURL + '/r-votes/' + resolution;
+        console.log("fetch :", s);
+        fetch(s)
+        .then(response => response.json())
+        .then(votes_list => {
+            this.setState({
+                votes : votes_list
+            })
+        })
+        */
+    }
+
+    componentDidUpdate(prevProps) {
+        const resolution =  this.props.match.params.resID;
+        console.log("ResolutionDetail componentDidUpdate: resolution="+resolution);
+
+        if(resolution != prevProps.match.params.resID) {
+            const baseURL = 'http://localhost:8081';
+            let s = baseURL + '/r-votes/' + resolution;
+            console.log("fetch :", s);
+            fetch(s)
+            .then(response => response.json())
+            .then(votes_list => {
+                this.setState({
+                    votes : votes_list
+                })
+            })
+
+            let k =  baseURL + "/resolutions/resid/" + resolution
+            fetch(k)
+            .then(response => response.json())
+            .then(info => {
+                this.setState({
+                rcid : info[0].rcid,
+                abstain : info[0].abstain,
+                date : info[0].date,
+                descr : info[0].descr,
+                no : info[0].no,
+                session : info[0].session,
+                unres : info[0].unres,
+                year : info[0].year,
+                yes : info[0].yes,
+                short : info[0].short
+                })
+            })
+        }
+    }
 
     render () {
 
@@ -118,60 +169,31 @@ class ResolutionDetail extends React.Component {
             </div>)
         }
         console.log("this is resolution:", resolution);
-        const baseURL = 'http://localhost:8081';
-
-
-
-        let s = baseURL + '/r-votes/' + resolution;
-        console.log("fetch :", s);
-
-        fetch(s)
-        .then(response => response.json())
-        .then(votes_list => {
-            this.setState({
-                votes : votes_list
-            })
-
-        })
-        let k =  baseURL + "/resolutions/resid/" + resolution
-        fetch(k)
-        .then(response => response.json())
-        .then(info => {
-            this.setState({
-            rcid : info[0].rcid,
-            abstain : info[0].abstain,
-            date : info[0].date,
-            descr : info[0].descr,
-            no : info[0].no,
-            session : info[0].session,
-            unres : info[0].unres,
-            year : info[0].year,
-            yes : info[0].yes
-            })
-
-
-        })
 
         return (
             <div className="country">
-            <div className= "detailres">
-                <h2> {this.state.unres} </h2>
-                <h3> {this.state.descr} </h3>
-                <p> number of countries that voted yes : {this.state.yes}, number of countries that voted no : {this.state.no}, number of countries that abstained {this.state.abstain} </p>
-            </div> 
-                {this.state.votes.map(vote =>
-                    <div>
-                    <p>
-                    <Link to= {`/countries/${vote.Countryname}`}>
-                    {vote.Countryname}: 
-                    </Link>
-                      voted {numToVote(vote.vote)}</p>
-                    </div> 
-        )
+                <div className= "detailres">
+                    <h2> {this.state.unres} : {this.state.short} </h2>
+                    <h3> {this.state.descr} </h3>
+                    <p> Date: {this.state.date} </p>
+                    <p> Vote outcome: {this.state.yes} Yes, {this.state.no} No, {this.state.abstain} Abstain </p>
+                </div> 
 
+                <h2>Votes</h2>
+                    {this.state.votes.map(vote =>
+                        <div>
+                        <p>
+                        <Link to= {`/countries/${vote.Countryname}`}>
+                        {vote.Countryname}: 
+                        </Link>
+                        voted {numToVote(vote.vote)}
+                        </p>
+                        </div> 
+                        )
+                    }
+            </div>
+        )
     }
-     </div>
-)}
 
 }
     
