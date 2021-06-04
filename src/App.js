@@ -4,6 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Navbar from './navbar';
+import home from './home';
+
 import Countries from './Countries';
 import Countriespage from './Countriespage';
 import Resolutions from './Resolutions';
@@ -27,6 +29,8 @@ class App extends React.Component {
           <Navbar/>
             <Switch>
             <Route path="/countries/:countryID" component = {Countriespage}>
+            </Route>
+            <Route exact path="/" component = {home}>
             </Route>
             <Route path="/resolutions/:resID" component = {Resolutionspage}>
             </Route>
