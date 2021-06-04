@@ -8,7 +8,7 @@ class Navbar extends React.Component {
             <div id= "in-nav">
                 <header className="header">
                                     <nav>
-                    <Link to={`/countries`}>
+                    <Link to={`/`}>
                     Home
                     </Link>
                     <Link to={`/countries`}>

@@ -1,7 +1,11 @@
-import React from 'react';
-import ResolutionDetail from './ResolutionDetail'
-import Resolutions from './Resolutions' 
+import React, { lazy, Suspense } from 'react'
+
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+
+const Resolutions = lazy(() => import('./Resolutions' ))
+const ResolutionDetail = lazy(() => import('./ResolutionDetail' ))
+
+
 
 
 
@@ -22,6 +26,9 @@ class Resolutionspage extends React.Component {
     render () {
         return (
             <div>
+             <Suspense fallback={<h1>Still Loading…</h1>}>
+
+
             <div class="tab">
                 <Resolutions onResolutionSelection = {this.handleResolutionSelection}/>
             </div>
@@ -31,6 +38,7 @@ class Resolutionspage extends React.Component {
                 </main>
 
             </div>
+            </Suspense>
 
             
             

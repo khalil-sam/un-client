@@ -96,7 +96,16 @@ class ResolutionDetail extends React.Component {
     {
         super(props);
         this.state = {
-            votes : []
+            votes : [], 
+            rcid : "",
+            abstain : 0,
+            date : "",
+            descr : "",
+            no : 0,
+            session : 0,
+            unres : "",
+            year : "",
+            yes : 0,
         }}
 
     render () {
@@ -105,7 +114,7 @@ class ResolutionDetail extends React.Component {
         console.log("resolution:", resolution);
         if (resolution === undefined){
             return(<div>
-            undefined 
+            No resolutions selected 
             </div>)
         }
         console.log("this is resolution:", resolution);
@@ -124,19 +133,39 @@ class ResolutionDetail extends React.Component {
             })
 
         })
+        let k =  baseURL + "/resolutions/resid/" + resolution
+        fetch(k)
+        .then(response => response.json())
+        .then(info => {
+            this.setState({
+            rcid : info[0].rcid,
+            abstain : info[0].abstain,
+            date : info[0].date,
+            descr : info[0].descr,
+            no : info[0].no,
+            session : info[0].session,
+            unres : info[0].unres,
+            year : info[0].year,
+            yes : info[0].yes
+            })
 
+
+        })
 
         return (
             <div className="country">
-                <h2> {resolution} </h2>
+            <div className= "detailres">
+                <h2> {this.state.unres} </h2>
+                <h3> {this.state.descr} </h3>
+                <p> number of countries that voted yes : {this.state.yes}, number of countries that voted no : {this.state.no}, number of countries that abstained {this.state.abstain} </p>
+            </div> 
                 {this.state.votes.map(vote =>
-                    <div class="container">
-                    <h4><b>{resolution}</b></h4>
+                    <div>
                     <p>
                     <Link to= {`/countries/${vote.Countryname}`}>
                     {vote.Countryname}: 
                     </Link>
-                      voted {numToVote(vote.vote)} for {vote.unres}</p>
+                      voted {numToVote(vote.vote)}</p>
                     </div> 
         )
 
