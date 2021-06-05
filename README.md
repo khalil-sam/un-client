@@ -4,7 +4,7 @@ This is the front-end part of our project UN Resolutions for CS396-Web Developme
 
 ## Current State
 
-We have a working interface with links to reoslutions and countries. The countries page has countries listed alphabetically. Once you click on a country you can have a list of resolutions that can be sorted by year. You can click on load more to have an infinite scroll. Similarly the resolutions page has a number of resolutions where you can see the details of resolutions and the votes. 
+We have a working interface with links to resolutions and countries. The countries page has countries listed alphabetically. Once you click on a country you can have a list of resolutions that can be sorted by year. You can click on load more to have an infinite scroll. Similarly the resolutions page has a number of resolutions where you can see the details of resolutions and the votes. 
 
 ## What we used for this part
 
