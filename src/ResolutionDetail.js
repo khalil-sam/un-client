@@ -10,9 +10,17 @@ function numToVote(num) {
     else {return "Data Unclear";}
 }
 
+const fixResIdentifier = (rName) => {
+    let nameArr = rName.split('/');
+    nameArr[0] = "A/RES";
+    return nameArr.join("/");
+}
+
 const getUNDoc = (name) => {
     // gets PDF link for the resolution w/ given name
     // name is like "A/65/537"
+    // so do ?/ -> A/RES/
+    name = fixResIdentifier(name);
     return "https://daccess-ods.un.org/access.nsf/Get?OpenAgent&DS=" + name + "&Lang=E";
 }
 
@@ -116,7 +124,7 @@ class ResolutionDetail extends React.Component {
                                 <Link to = {`/countries/${vote.Countryname}`}>
                                     {vote.Countryname}: 
                                 </Link>
-                                voted {numToVote(vote.vote)}
+                                 Voted {numToVote(vote.vote)}
                             </p>
                         </div> 
                     }

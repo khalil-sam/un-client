@@ -9,7 +9,7 @@ class home extends React.Component {
                     <h1>About UNVotes</h1>
                 </header>
                 <p>
-                    Browse UN General Assembly resolutions online.
+                    Browse UN General Assembly resolutions online. View resolutions by country and year!
                 </p>
                 <p>
                     This is made by Khalil Samoud and Chase Duvall.

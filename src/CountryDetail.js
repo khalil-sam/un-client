@@ -121,9 +121,11 @@ class CountryDetail extends React.Component {
                     
                         <div className="container" key={resolution.resid}>
                         
-                        <h4><b> <Link to= {`/resolutions/${resolution.resid}`}>
-                        {resolution.unres}
-                        </Link></b></h4>
+                        <h4><b>
+                        <Link to = {`/resolutions/${resolution.resid}`}>
+                            {resolution.unres}: {resolution.short}
+                        </Link>
+                        </b></h4>
                         <p>
                         {resolution.Countryname} voted {numToVote(resolution.vote)} for {resolution.unres} on {resolution.date}</p>
                         </div> 
