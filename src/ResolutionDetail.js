@@ -114,7 +114,7 @@ class ResolutionDetail extends React.Component {
                     <h3> {this.state.descr} </h3>
                     <p> Date: {this.state.date} </p>
                     <p> Vote outcome: {this.state.yes} Yes, {this.state.no} No, {this.state.abstain} Abstain </p>
-                    <a href={getUNDoc(this.state.unres)}>Resolution PDF</a>
+                    <a href={getUNDoc(this.state.unres)}>Resolution PDF</a> (No guarantee of this working, especially pre-1990)
                 </div> 
 
                 <h2>Votes</h2>

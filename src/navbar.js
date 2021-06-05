@@ -12,9 +12,9 @@ class Navbar extends React.Component {
                     <Link to={`/`}>
                     Home
                     </Link>
-                    <Link to={`/`}>
+                    {/*<Link to={`/`}>
                     About
-                    </Link>
+                    </Link>*/}
                     <Link to={`/countries`}>
                     Countries
                     </Link>
