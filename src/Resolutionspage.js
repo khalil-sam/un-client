@@ -5,10 +5,6 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 const Resolutions = lazy(() => import('./Resolutions' ))
 const ResolutionDetail = lazy(() => import('./ResolutionDetail' ))
 
-
-
-
-
 class Resolutionspage extends React.Component {
     constructor(props){
         super(props);
@@ -22,30 +18,20 @@ class Resolutionspage extends React.Component {
         this.setState({currentResolution : resolution})
     }
 
-
     render () {
         return (
             <div>
              <Suspense fallback={<h1>Still Loading…</h1>}>
-
-
-            <div class="tab">
+              <div className="tab">
                 <Resolutions onResolutionSelection = {this.handleResolutionSelection}/>
-            </div>
-            <div class="tabcontent">
-                <main className="main" >
+              </div>
+              <div className="tabcontent">
+               <main className="main" >
                 <ResolutionDetail resolution_id = {this.state.currentResolution.resid}/>
-                </main>
-
+               </main>
+              </div>
+             </Suspense>
             </div>
-            </Suspense>
-
-            
-            
-            </div>
-                 
-            
-
         )
     }
 }

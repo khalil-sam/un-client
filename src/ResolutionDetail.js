@@ -1,85 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Link, Route, Switch, useParams, withRouter } from 'react-router-dom';
 
-
-
-//console.log(__dirname)
-
-// let resolutions = [];
-
-// const showResolutions = () => {
-//     console.log("SHOWING resolutions!");
-//     fetch(`${baseURL}/resolutions`)
-//         .then(response => response.json())
-//         .then(data => {
-//             resolutions = data;
-//             const listItems = data.map(item =>
-//             `<button class="tablinks" onclick="openRes('${item.unres}')" id=${item.unres}>${item.unres}: ${item.short}</button>`
-//             );
-//             document.querySelector('.tab').innerHTML =
-//                     `${listItems.join('')}`             
-//         })
-//         //.then(attachEventHandlers);
-// }
-
-// showResolutions();
-
-// const showResDetails = (res) => {
-//         console.log(JSON.stringify(res));
-//         let tab = document.querySelector('.top-detail');
-//         tab.innerHTML =
-//         `<h1>Resolution Details: ${res.unres}</h1>`;
-//         tab.innerHTML +=
-//         resReadout(res);
-
-//         // votes on this res
-//         let area = document.querySelector('.bottom-detail');
-//         area.innerHTML = `Loading...`;
-//         fetch(`${baseURL}/r-votes/${res.resid}`)
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log(data);
-//             area.innerHTML = 
-//             voteReadout(data);
-//         })
-
-//         /*console.log("DRAWING MAP USING API CALL!!");
-//         drawMap();*/
-// }
-
-// function openRes(resName) {
-//     // a
-//     var result = resolutions.filter(obj => {
-//         return obj.unres == resName
-//     })[0];
-//     showResDetails(result);
-// }
-
-// function resReadout(res) {
-//     return `
-//     Topic: ${res.short}
-//     <br>
-//     Date: ${res.date}
-//     <br>
-//     Result: Yes ${res.yes}; No ${res.no}; Abstain ${res.abstain}
-//     <br>
-//     <p>Description: ${res.descr}</p>
-//     <br>
-//     <h3>Votes on this Resolution</h3>
-//     `
-// }
-
-// function voteReadout(votes) {
-//     let memberVotes = votes.filter(item => {
-//         return item.member == "1";
-//     })
-//     let result = ``;
-//     memberVotes.forEach(vote => {
-//         result += `<br>${vote.Countryname}: ${numToVote(vote.vote)}<br>`;
-//     });
-//     return result;
-// }
-
 function numToVote(num) {
     if (num == "1") {return "Yes";}
     if (num == "2") {return "Abstain";} 
@@ -89,60 +10,45 @@ function numToVote(num) {
     else {return "Data Unclear";}
 }
 
-
+const getUNDoc = (name) => {
+    // gets PDF link for the resolution w/ given name
+    // name is like "A/65/537"
+    return "https://daccess-ods.un.org/access.nsf/Get?OpenAgent&DS=" + name + "&Lang=E";
+}
 
 class ResolutionDetail extends React.Component { 
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
         this.state = {
             votes : [], 
             rcid : "",
-            abstain : 0,
+            abstain : 56,
             date : "",
             descr : "",
-            no : 0,
+            no : 34,
             session : 0,
             unres : "",
             year : "",
-            yes : 0,
-            short : ""
+            yes : 12,
+            short : "",
+            loading: true
         }
-
-        /*
-        const baseURL = 'http://localhost:8081';
-        let s = baseURL + '/r-votes/' + resolution;
-        console.log("fetch :", s);
-        fetch(s)
-        .then(response => response.json())
-        .then(votes_list => {
-            this.setState({
-                votes : votes_list
-            })
-        })
-        */
     }
 
-    componentDidUpdate(prevProps) {
-        const resolution =  this.props.match.params.resID;
-        console.log("ResolutionDetail componentDidUpdate: resolution="+resolution);
+    showRes(resolution) {
+        console.log("showRes");
 
-        if(resolution != prevProps.match.params.resID) {
-            const baseURL = 'http://localhost:8081';
-            let s = baseURL + '/r-votes/' + resolution;
-            console.log("fetch :", s);
+        const baseURL = 'http://localhost:8081';
+
+        let k =  baseURL + "/resolutions/resid/" + resolution
+        let s = baseURL + '/r-votes/' + resolution;
+
+        fetch(k)
+        .then(response => response.json())
+        .then(info => {
             fetch(s)
             .then(response => response.json())
             .then(votes_list => {
-                this.setState({
-                    votes : votes_list
-                })
-            })
-
-            let k =  baseURL + "/resolutions/resid/" + resolution
-            fetch(k)
-            .then(response => response.json())
-            .then(info => {
                 this.setState({
                 rcid : info[0].rcid,
                 abstain : info[0].abstain,
@@ -153,9 +59,23 @@ class ResolutionDetail extends React.Component {
                 unres : info[0].unres,
                 year : info[0].year,
                 yes : info[0].yes,
-                short : info[0].short
+                short : info[0].short,
+                votes : votes_list,
+                loading : false
                 })
             })
+        })
+        
+        
+    }
+
+    componentDidUpdate(prevProps) {
+        const resolution =  this.props.match.params.resID;
+        console.log("ResolutionDetail componentDidUpdate: resolution="+resolution);
+
+        if(resolution != prevProps.match.params.resID) {
+            this.setState({loading: true});
+            this.showRes(resolution);
         }
     }
 
@@ -163,38 +83,47 @@ class ResolutionDetail extends React.Component {
 
         const resolution =  this.props.match.params.resID;
         console.log("resolution:", resolution);
-        if (resolution === undefined){
+        if (resolution === undefined) {
             return(<div>
             No resolutions selected 
             </div>)
         }
         console.log("this is resolution:", resolution);
 
+        if (this.state.loading) { // this.state.votes.length == 0
+            // setup with a URL that has a res #
+            this.showRes(resolution);
+            return <p>Loading...</p>;
+        }
+
+        //console.log("GOT BELOW - votes:"+this.state.votes);
+
+
         return (
             <div className="country">
                 <div className= "detailres">
-                    <h2> {this.state.unres} : {this.state.short} </h2>
+                    <h1> {this.state.unres} : {this.state.short} </h1>
                     <h3> {this.state.descr} </h3>
                     <p> Date: {this.state.date} </p>
                     <p> Vote outcome: {this.state.yes} Yes, {this.state.no} No, {this.state.abstain} Abstain </p>
+                    <a href={getUNDoc(this.state.unres)}>Resolution PDF</a>
                 </div> 
 
                 <h2>Votes</h2>
-                    {this.state.votes.map(vote =>
-                        <div>
-                        <p>
-                        <Link to= {`/countries/${vote.Countryname}`}>
-                        {vote.Countryname}: 
-                        </Link>
-                        voted {numToVote(vote.vote)}
-                        </p>
+                    {this.state.votes.map(vote => {
+                        return <div key={vote.Countryname}>
+                            <p>
+                                <Link to = {`/countries/${vote.Countryname}`}>
+                                    {vote.Countryname}: 
+                                </Link>
+                                voted {numToVote(vote.vote)}
+                            </p>
                         </div> 
-                        )
                     }
+                    )}
             </div>
         )
     }
-
 }
     
 

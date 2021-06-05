@@ -8,6 +8,7 @@ class Countries extends React.Component {
         this.state = {
             countries : []
         }
+
         fetch ('http://localhost:8081/votes/country')
         .then(response => response.json())
         .then(c => {
@@ -15,6 +16,7 @@ class Countries extends React.Component {
                 countries : c
             })
         })
+
         console.log("hello",this.state.countries);
         console.log(typeof this.state.countries)
         this.handleSelection = this.handleSelection.bind(this)
@@ -27,19 +29,15 @@ class Countries extends React.Component {
         this.props.onCountrySelection(result)
     }
  
-
     render () {
         return (
-
             <aside className="aside" >
                
                 {this.state.countries.map(country => 
-                    <Link to={"/countries/"+country}> 
-                    <button class="tablinks" data-key = {country} onClick={this.handleSelection} id={country}>{country} </button>
+                    <Link to={"/countries/"+country} key={country}> 
+                    <button className="tablinks" data-key = {country} onClick={this.handleSelection} id={country}>{country} </button>
                     </Link>
                 )}
-             
-                    
         </aside>
         )
     }

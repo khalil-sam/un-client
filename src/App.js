@@ -20,9 +20,6 @@ import { BrowserRouter as Router, Link, Route, Switch, useParams } from 'react-r
 // }
 
 class App extends React.Component {
-
-
-
     render () {
         return (
           <div id = "out-route">
