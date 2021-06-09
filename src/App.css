@@ -157,6 +157,20 @@
   outline: none;
 }
 
+.res-year-select {
+  align-self: center;
+  background-color: #009edb;
+  color: white;
+  padding: 12px;
+  width: 250px;
+  border: none;
+  font-size: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+}
+
 .box::before {
   content: "\f13a";
   font-family: FontAwesome;

@@ -28,7 +28,7 @@ class VoteTable extends React.Component {
             let n = [];
             let a = [];
             this.props.votes.forEach(vote => {
-                let link = <li><Link to = {`/countries/${vote.Countryname}`}>
+                let link = <li key={vote.Countryname}><Link to = {`/countries/${vote.Countryname}`}>
                             {vote.Countryname} </Link> </li>
                 if(vote.vote==1) {
                     y.push(link);
@@ -40,7 +40,7 @@ class VoteTable extends React.Component {
                     a.push(link);
                 }
             })
-            console.log("y:"+y);
+            //console.log("y:"+y);
             /*this.setState({
                 yesHTML : y,
                 noHTML : n,
@@ -67,7 +67,6 @@ class VoteTable extends React.Component {
                     <h4><center>Yes</center></h4>
                     <ol>
                     {this.state.yesHTML.map(line => {
-                        console.log(line);
                         return line;
                     })}
                     </ol>
@@ -77,7 +76,6 @@ class VoteTable extends React.Component {
 
                     <ol>
                     {this.state.noHTML.map(line => {
-                        console.log(line);
                         return line;
                     })}
                     </ol>
@@ -87,7 +85,6 @@ class VoteTable extends React.Component {
 
                     <ol>
                     {this.state.absHTML.map(line => {
-                        console.log(line);
                         return line;
                     })}
                     </ol>

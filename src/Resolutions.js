@@ -2,9 +2,10 @@ import React, { lazy, Suspense } from 'react'
 
 import { BrowserRouter as Router, Link, Route, Switch, useParams } from 'react-router-dom';
 
+const defaultTxt = "Select Year";
+
 class Resolutions extends React.Component {  
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
         this.state = {
             resolutions : [],
@@ -34,16 +35,25 @@ class Resolutions extends React.Component {
 
     handleDropdownChange(e) {
         console.log("Resolutions handleDropdownChange: year="+e.target.value);
-        this.setState({ year: e.target.value });
 
-        let s = 'http://localhost:8081/resolutions' + "?year=" + e.target.value
-        fetch (s)
-        .then(response => response.json())
-        .then(r => {
+        if(e.target.value==defaultTxt) {
+            console.log("RESDROP BACK TO DEFAULT");
             this.setState({
-                resolutions : r
+                year : "",
+                resolutions : []
+            });
+        }
+        else {
+            this.setState({ year: e.target.value });
+            let s = 'http://localhost:8081/resolutions' + "?year=" + e.target.value
+            fetch (s)
+            .then(response => response.json())
+            .then(r => {
+                this.setState({
+                    resolutions : r
+                })
             })
-        })
+        }
     }
  
 
@@ -68,8 +78,8 @@ class Resolutions extends React.Component {
 
             <aside className="aside" >
 
-            <select id="year" name="year" className = "box" onChange={this.handleDropdownChange}>
-                <option key="Year">Year</option>
+            <select id="year" name="year" className = "res-year-select" onChange={this.handleDropdownChange}>
+                <option key="Year">{defaultTxt}</option>
 
                 {
                     this.statics.years.map(yearStr => {
