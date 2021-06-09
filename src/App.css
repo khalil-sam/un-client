@@ -96,6 +96,23 @@
     color: hsl(197, 100%, 43%);
 }
 
+.resPgBtn {
+  padding: 12px 75px;
+  font-size: 16px;
+  background-color: #009edb;
+  border: 2px solid 	hsl(197, 100%, 43%);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  /*transition: all 0.5s cubic-bezier(1,.15,.34,.92)*/
+}
+
+.res-page-menu {
+  display: grid;
+  grid-auto-flow: column;
+}
+
 /*
 
 .seeMoreBtn:hover span {

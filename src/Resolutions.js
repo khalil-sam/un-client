@@ -9,11 +9,16 @@ class Resolutions extends React.Component {
         super(props);
         this.state = {
             resolutions : [],
-            year : ""
+            year : "",
+            pageNum : 1,
+            pageSize : 20,
+            pageMax : 1
         }
 
         this.handleSelection = this.handleSelection.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
 
         this.statics = {
             years : []
@@ -25,6 +30,18 @@ class Resolutions extends React.Component {
         }
         this.statics.years = years;
         //console.log("years:"+this.statics.years);
+    }
+
+    prevPage = () => {
+        if(this.state.pageNum > 1) {
+            this.setState({ pageNum: this.state.pageNum - 1 });
+        }
+    }
+
+    nextPage = () => {
+        if(this.state.pageNum < this.state.pageMax) {
+            this.setState({ pageNum: this.state.pageNum + 1 });
+        }
     }
     
     handleSelection(ev){
@@ -45,12 +62,16 @@ class Resolutions extends React.Component {
         }
         else {
             this.setState({ year: e.target.value });
-            let s = 'http://localhost:8081/resolutions' + "?year=" + e.target.value
+            let s = 'http://localhost:8081/resolutions'
+                + "?year=" + e.target.value
+                + "&nolimit=1";
             fetch (s)
             .then(response => response.json())
             .then(r => {
                 this.setState({
-                    resolutions : r
+                    resolutions : r,
+                    pageNum: 1,
+                    pageMax: Math.ceil(r.length / this.state.pageSize)
                 })
             })
         }
@@ -70,17 +91,23 @@ class Resolutions extends React.Component {
         })
         */
 
-        console.log("state:",this.state.resolutions);
+        console.log("state.resolutions:",this.state.resolutions);
         /*this.statics.years.map(yearStr => {
             console.log("yearStr:"+yearStr);
         })*/
+
+        let page = this.state.pageNum - 1; // 0-based
+        let page_resolutions = this.state.resolutions.slice(
+            page*this.state.pageSize,
+            page*this.state.pageSize + this.state.pageSize);
+
         return (
 
             <aside className="aside" >
 
+            {/* Year selection */}
             <select id="year" name="year" className = "res-year-select" onChange={this.handleDropdownChange}>
                 <option key="Year">{defaultTxt}</option>
-
                 {
                     this.statics.years.map(yearStr => {
                         return <option value={yearStr} key={yearStr}>{yearStr}</option>
@@ -89,16 +116,26 @@ class Resolutions extends React.Component {
 
             </select> 
 
-
-
+            {/* list of resolutions */}
             <Suspense fallback={<h1>Still Loading…</h1>}>
-                {this.state.resolutions.map(res => 
+                {page_resolutions.map(res => 
                 <Link to={"/resolutions/"+res.resid} key={res.resid}> 
                 <button className="tablinks" data-key = {res.resid} onClick={this.handleSelection} id={res.resid}>
                 {res.unres} : {res.short}
                 </button>
                 </Link>)}
             </Suspense>
+
+            {/* Page selection */}
+            <div className = "res-page-menu">
+                {this.state.pageNum > 1 ?
+                <button onClick={this.prevPage} className="resPgBtn">Previous</button>
+                :<p/>}
+                Showing Page: {this.state.pageNum} of {this.state.pageMax}
+                {this.state.pageNum < this.state.pageMax ?
+                <button onClick={this.nextPage} className="resPgBtn">Next</button>
+                :<p/>}
+            </div>
 
             </aside>
         )
