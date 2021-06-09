@@ -13,12 +13,15 @@ class CountryDetail extends React.Component {
         this.state= {
             currentCountry : "",
             list_resolutions : [],
-            page_num : 20, 
+            page_size : 20, 
             year : "",
             noResults : false,
-            loading : true
+            loading : true,
+            pageNum : 1,
+            pageMax: 1
         }
-        this.IncrementItem = this.IncrementItem.bind(this);
+        this.PrevPage = this.PrevPage.bind(this);
+        this.NextPage = this.NextPage.bind(this);
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.showCountry = this.showCountry.bind(this);
 
@@ -44,8 +47,16 @@ class CountryDetail extends React.Component {
         */
     }
 
-    IncrementItem = () => {
-        this.setState({ page_num: this.state.page_num + 5 });
+    PrevPage = () => {
+        if(this.state.pageNum > 1) {
+            this.setState({ pageNum: this.state.pageNum - 1 });
+        }
+    }
+
+    NextPage = () => {
+        if(this.state.pageNum < this.state.pageMax) {
+            this.setState({ pageNum: this.state.pageNum + 1 });
+        }
     }
 
 //   changeyYear = (e){
@@ -66,14 +77,23 @@ class CountryDetail extends React.Component {
 
     showCountry = (country) => {
         const baseURL = 'http://localhost:8081';
-        let s = baseURL + '/votes/country/' + country +"?pagesize=" + this.state.page_num + "&year=" + this.state.year;
+        let s = baseURL + '/votes/country/' + country
+            + "?pagesize=" + this.state.page_size
+            + "&year=" + this.state.year
+            + "&nolimit=1";
 
         console.log("fetch :", s);
         let res = [];
         fetch(s)
         .then(response => response.json())
         .then(resolutions_list => {
-            this.setState({list_resolutions : resolutions_list, noResponse : (resolutions_list.length==0), loading : false})
+            this.setState({
+                list_resolutions : resolutions_list,
+                noResponse : (resolutions_list.length==0),
+                loading : false,
+                pageNum: 1,
+                pageMax: Math.ceil(resolutions_list.length / this.state.page_size)
+            })
             console.log("return res:", resolutions_list);
         })
     }
@@ -99,6 +119,13 @@ class CountryDetail extends React.Component {
 
         console.log("NOT LOADING: country = " + country);
 
+        console.log("list_resolutions len:"+this.state.list_resolutions.length);
+        let page = this.state.pageNum - 1; // 0-based
+        let display_countries = this.state.list_resolutions.slice(
+            page*this.state.page_size,
+            page*this.state.page_size + this.state.page_size);
+        console.log("display_countries len: "+display_countries.length);
+
         return (
             <div>
                 <div className = "box"> 
@@ -112,12 +139,12 @@ class CountryDetail extends React.Component {
                             )
                         }
 
-                    </select> 
+                    </select>
                 </div>
                     
                 <div className="Country">
                     <h1> {country} </h1>
-                    {this.state.list_resolutions.map(resolution =>
+                    {display_countries.map(resolution =>
                     
                         <div className="container" key={resolution.resid}>
                         
@@ -135,8 +162,17 @@ class CountryDetail extends React.Component {
 
                 {isCountry ?
                     <div style={{position : "relative", left :"60%"}}>
-                        <button onClick={this.IncrementItem} className="slideUpBtn"></button>
+                        {this.state.pageNum > 1 ?
+                        <button onClick={this.PrevPage} className="seeMoreBtn">Previous</button>
+                        :<p/>}
+
+                        Showing Page: {this.state.pageNum} of {this.state.pageMax}
+
+                        {this.state.pageNum < this.state.pageMax ?
+                        <button onClick={this.NextPage} className="seeMoreBtn">Next</button>
+                        :<p/>}
                     </div> 
+
                     : 'Please select a country from the left panel'}
             </div>
         )

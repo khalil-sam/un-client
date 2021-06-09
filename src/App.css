@@ -76,30 +76,36 @@
     transform: translate(-10px, -50%);
     transition: opacity .3s .05s cubic-bezier(.455,.03,.515,.955), transform .3s .05s cubic-bezier(.455,.03,.515,.955);
 }
-.slideUpBtn {
-    padding: 24px 75px;
-    background-color: transparent;
+
+
+.seeMoreBtn {
+    padding: 12px 75px;
+    font-size: 16px;
+    background-color: #009edb;
     border: 2px solid 	hsl(197, 100%, 43%);
     border-radius: 6px;
     position: relative;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(1,.15,.34,.92)
+    color: white;
+    /*transition: all 0.5s cubic-bezier(1,.15,.34,.92)*/
 }
 
-.slideUpBtn span {
+.seeMoreBtn span {
     display: inline-block;
     transition: inherit;
     color: hsl(197, 100%, 43%);
 }
 
-.slideUpBtn:hover span {
+/*
+
+.seeMoreBtn:hover span {
     opacity: 0;
     transform: translateY(-100%)
 }
 
-.slideUpBtn::before {
+.seeMoreBtn::before {
     content: "";
-    background-color: 	hsl(197, 100%, 43%);
+    background-color: 	green;
     height: 100%;
     left: 0;
     position: absolute;
@@ -110,8 +116,8 @@
     transition: transform 0.5s cubic-bezier(1,.15,.34,.92)
 }
 
-.slideUpBtn::after {
-    content: 'See More';
+.seeMoreBtn::after {
+    content: 'Next';
     align-items: center;
     display: flex;
     height: 100%;
@@ -122,19 +128,20 @@
     transition: inherit;
     transform: translateY(100%);
     width: 100%;
-
 }
 
-.slideUpBtn:hover::before {
+.seeMoreBtn:hover::before {
     transform: translateY(0) scale(3);
     transition-delay: .025s;
 }
 
-.slideUpBtn:hover::after {
+.seeMoreBtn:hover::after {
     opacity: 1;
-    color: hsl(222, 100%, 95%);
+    color: orange;
     transform: translateY(0);
 }
+
+*/
 
 
 .box {

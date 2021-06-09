@@ -12,7 +12,7 @@ class home extends React.Component {
                     Browse UN General Assembly resolutions online. View resolutions by country and year!
                 </p>
                 <p>
-                    This is made by Khalil Samoud and Chase Duvall.
+                    This is made by Khalil Samoud and Chase Duvall. Website not officially affiliated with the United Nations.
                 </p>
             </div>)
 }}
