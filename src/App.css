@@ -187,3 +187,31 @@ nav {
   grid-auto-flow: column;
   grid-column-gap: 15px
 }
+
+.vote-table {
+  display: grid;
+  grid-auto-flow: column;
+  color : white;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.vote-table ol {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.vote-table a {
+  color: white;
+}
+
+.yes-col {
+  background-color : green;
+}
+
+.no-col {
+  background-color : maroon;
+}
+
+.abs-col {
+  background-color : rgb(185, 185, 0);
+}

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Link, Route, Switch, useParams, withRouter } from 'react-router-dom';
+
+const VoteTable = lazy(() => import('./VoteTable'));
 
 function numToVote(num) {
     if (num == "1") {return "Yes";}
@@ -106,7 +108,6 @@ class ResolutionDetail extends React.Component {
 
         //console.log("GOT BELOW - votes:"+this.state.votes);
 
-
         return (
             <div className="country">
                 <div className= "detailres">
@@ -118,25 +119,10 @@ class ResolutionDetail extends React.Component {
                 </div> 
 
                 <h2>Votes</h2>
-                    {this.state.votes.map(vote => {
-                        return <div key={vote.Countryname}>
-                            <p>
-                                <Link to = {`/countries/${vote.Countryname}`}>
-                                    {vote.Countryname}: 
-                                </Link>
-                                 Voted {numToVote(vote.vote)}
-                            </p>
-                        </div> 
-                    }
-                    )}
+                <VoteTable votes = {this.state.votes}/>
             </div>
         )
     }
 }
-    
-
-    
-
-
 
 export default withRouter(ResolutionDetail);
