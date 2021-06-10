@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Link, Route, Switch, useParams, withRouter } from 'react-router-dom';
 import queryString from 'query-string';
+import { runInThisContext } from 'vm';
 
-let years = []
-for (let i=1946; i<= 2019; i++) {
-    years.push(i.toString());
-}
+const baseURL = 'http://localhost:8081';
 
 class CountryDetail extends React.Component {
     constructor(props){
@@ -13,38 +11,24 @@ class CountryDetail extends React.Component {
         this.state= {
             currentCountry : "",
             list_resolutions : [],
-            page_size : 20, 
-            year : "",
+            page_size : 10, 
+            year : "Select Year",
             noResults : false,
             loading : true,
+            loadingOptions: true,
+            loadingVotes: true,
             pageNum : 1,
-            pageMax: 1
+            pageMax: 1,
+            years: []
         }
         this.PrevPage = this.PrevPage.bind(this);
         this.NextPage = this.NextPage.bind(this);
-        this.handleDropdownChange = this.handleDropdownChange.bind(this);
+        this.doDropdownChange = this.doDropdownChange.bind(this);
         this.showCountry = this.showCountry.bind(this);
 
-        // this.changeyYear = this.changeyYear.bind(this);
+        this.showCountry(this.props.match.params.countryID);
 
-        /*
-        let country = this.props.match.params.countryID;
-        this.setState({currentCountry : country}) // unnecessary?
-
-        const baseURL = 'http://localhost:8081';
-        let s = baseURL + '/votes/country/' + country +"?pagesize=" + this.state.page_num + "&year=" + this.state.year;
-        console.log("fetch :", s);
-        let res = [];
-        fetch(s)
-        .then(response => response.json())
-        .then(resolutions_list => {
-            res = resolutions_list;
-        })
-        .then(response => {
-            this.setState({list_resolutions : res})
-            console.log("return res:", res);
-        })
-        */
+        console.log("CountryDetail props: "+JSON.stringify(this.props));
     }
 
     PrevPage = () => {
@@ -63,20 +47,50 @@ class CountryDetail extends React.Component {
 //     this.setState({selectValue:e.target.value});
 //   };
 
-    handleDropdownChange(e) {
-        this.setState({ year: e.target.value });
+    doDropdownChange(year) {
+        console.log("CountryDetail: doDropdownChange");
+        this.setState({ year: year, loadingVotes : true });
+        this.showCountry(this.state.currentCountry);
     }
 
     componentDidUpdate(prevProps) {
+        if(this.props.year != prevProps.year) {
+            this.doDropdownChange(this.props.year);
+        }
+
         let country = this.props.match.params.countryID;
         if(country != prevProps.match.params.countryID) {
-            this.setState({loading : true, currentCountry : country});
+            this.setState({loadingOptions: true});
+
+
+            let firstYear = 1946;
+            let path = baseURL + '/votes/country/' + country
+            + "?pagesize=1";
+            fetch(path).then(result => {
+                return result = result.json();
+            }).then(result => {
+                console.log("FINDING A RESULT:"+JSON.stringify(result[0]));
+                firstYear = parseInt(result[0].year);
+
+                let years = [];
+                for (let i=firstYear; i<= 2019; i++) {
+                    years.push(i.toString());
+                }
+                console.log("NEW YEARS: "+years);
+                this.props.updateYears(years);
+
+
+
+                this.setState({currentCountry : country, years:years, loadingOptions: false});
+            }).catch(err => {
+                console.log("ERROR IN FINDING FIRSTYEAR :(");
+            });
+
             this.showCountry(country);
         }
     }
 
     showCountry = (country) => {
-        const baseURL = 'http://localhost:8081';
         let s = baseURL + '/votes/country/' + country
             + "?pagesize=" + this.state.page_size
             + "&year=" + this.state.year
@@ -86,16 +100,21 @@ class CountryDetail extends React.Component {
         let res = [];
         fetch(s)
         .then(response => response.json())
-        .then(resolutions_list => {
+        .then(votes_list => {
+
             this.setState({
-                list_resolutions : resolutions_list,
-                noResponse : (resolutions_list.length==0),
-                loading : false,
+                list_resolutions : votes_list,
+                noResponse : (votes_list.length==0),
                 pageNum: 1,
-                pageMax: Math.ceil(resolutions_list.length / this.state.page_size)
+                pageMax: Math.ceil(votes_list.length / this.state.page_size),
+                loading:false,
+                loadingVotes:false
             })
-            console.log("return res:", resolutions_list);
+            console.log("return res:", votes_list);
         })
+        .catch(thing => {
+            console.log("PROB in showCOUNTRY!! >:("+thing);
+        });
     }
 
     render() {
@@ -107,12 +126,12 @@ class CountryDetail extends React.Component {
             isCountry = true
         };
 
-        if(this.state.loading) {
-            this.showCountry(country);
+        if(this.state.loadingVotes) {
+            //this.showCountry(country);
             return (
                 <div className="Country">
                 <h1> {country} </h1>
-                <p>Loading...</p>
+                <p>Loading votes...</p>
                 </div>
             )
         }
@@ -128,40 +147,33 @@ class CountryDetail extends React.Component {
 
         return (
             <div>
-                <div className = "box"> 
-                    <select id="year" name="year" onChange={this.handleDropdownChange}>
-                        {/* onchange={this.changeyYear}> */}
-                        <option>Year</option>
-
-                        {
-                            years.map(yearStr => 
-                                <option value={yearStr} key={yearStr}>{yearStr}</option>
-                            )
-                        }
-
-                    </select>
-                </div>
                     
                 <div className="Country">
                     <h1> {country} </h1>
-                    {display_countries.map(resolution =>
-                    
-                        <div className="container" key={resolution.resid}>
-                        
-                        <h4><b>
-                        <Link to = {`/resolutions/${resolution.resid}`}>
-                            {resolution.unres}: {resolution.short}
-                        </Link>
-                        </b></h4>
-                        <p>
-                        {resolution.Countryname} voted {numToVote(resolution.vote)} for {resolution.unres} on {resolution.date}</p>
-                        </div> 
-                    )
-                    }
+
+                    {this.state.list_resolutions.length!=0 ?
+                        <div className = "the-votes-for-a-country">
+                        {display_countries.map(vote =>
+                            <div className="country-vote-container" key={vote.resid}>
+                                <p>
+                                <b>
+                                <Link to = {`/resolutions/${vote.resid}`}>
+                                    {vote.unres}{/*: {resolution.short}*/}
+                                </Link>
+                                </b>
+                                </p>
+                                <p>{vote.Countryname} voted {numToVote(vote.vote)} for {vote.unres} on {vote.date}</p>
+                            </div> 
+                        )
+                        }
+                        </div>
+                    : <p>Loading votes...</p>}
                 </div>
 
+                {/* page menu */}
                 {isCountry ?
-                    <div style={{position : "relative", left :"60%"}}>
+                    (this.state.list_resolutions.length != 0 ?
+                        <div className = "country-page-menu">
                         {this.state.pageNum > 1 ?
                         <button onClick={this.PrevPage} className="seeMoreBtn">Previous</button>
                         :<p/>}
@@ -171,7 +183,8 @@ class CountryDetail extends React.Component {
                         {this.state.pageNum < this.state.pageMax ?
                         <button onClick={this.NextPage} className="seeMoreBtn">Next</button>
                         :<p/>}
-                    </div> 
+                        </div> 
+                    : 'No results.')
 
                     : 'Please select a country from the left panel'}
             </div>

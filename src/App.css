@@ -108,9 +108,66 @@
   /*transition: all 0.5s cubic-bezier(1,.15,.34,.92)*/
 }
 
+.country-vote-container h4 {
+  margin-top: 1px;
+  display: grid;
+  grid-auto-flow: columns;
+  grid-template-columns: 1fr 1fr;
+}
+
+.country-vote-container {
+  display: grid;
+  grid-auto-flow: rows;
+  grid-auto-rows: minmax(auto, 1em);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.sortOptions {
+  height: 70px;
+  background-color: orange;
+}
+
+.yearSelDiv {
+  background-color: #009edb;
+}
+
+/*
+.country-vote-container div {
+  display: grid;
+  grid-auto-flow: columns;
+}*/
+
+.the-votes-for-a-country {
+  display: grid;
+  grid-auto-flow: rows;
+  grid-gap: 30px;
+}
+
+.countries-aside {
+  height: 800px;
+  overflow-y: auto;
+}
+
+.country-list-label {
+  text-align: center;
+}
+
 .res-page-menu {
   display: grid;
   grid-auto-flow: column;
+}
+
+.classMenuLabel {
+  justify-self: center;
+  align-self: center;
+}
+
+.country-page-menu {
+  display: grid;
+  grid-auto-flow: column;
+  align-self: center;
+  margin-top:20px;
+  text-align: center;
 }
 
 /*

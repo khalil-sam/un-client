@@ -56,7 +56,7 @@ class Resolutions extends React.Component {
         if(e.target.value==defaultTxt) {
             console.log("RESDROP BACK TO DEFAULT");
             this.setState({
-                year : "",
+                year : defaultTxt,
                 resolutions : []
             });
         }
@@ -116,7 +116,7 @@ class Resolutions extends React.Component {
 
             </select> 
 
-            {/* list of resolutions */}
+            {/* List of resolutions */}
             <Suspense fallback={<h1>Still Loading…</h1>}>
                 {page_resolutions.map(res => 
                 <Link to={"/resolutions/"+res.resid} key={res.resid}> 
@@ -126,16 +126,23 @@ class Resolutions extends React.Component {
                 </Link>)}
             </Suspense>
 
-            {/* Page selection */}
-            <div className = "res-page-menu">
-                {this.state.pageNum > 1 ?
-                <button onClick={this.prevPage} className="resPgBtn">Previous</button>
-                :<p/>}
-                Showing Page: {this.state.pageNum} of {this.state.pageMax}
-                {this.state.pageNum < this.state.pageMax ?
-                <button onClick={this.nextPage} className="resPgBtn">Next</button>
-                :<p/>}
-            </div>
+            {/* Page menu */}
+            {(this.state.year!=defaultTxt) ?
+                <div className = "res-page-menu">
+                    {this.state.pageNum > 1 ?
+                    <button onClick={this.prevPage} className="resPgBtn">Previous</button>
+                    :<p/>}
+
+                    <div className="pageMenuLabel">
+                    Showing Page: {this.state.pageNum} of {this.state.pageMax}
+                    </div>
+
+                    {this.state.pageNum < this.state.pageMax ?
+                    <button onClick={this.nextPage} className="resPgBtn">Next</button>
+                    :<p/>}
+                </div>
+
+            : <p></p>}
 
             </aside>
         )
