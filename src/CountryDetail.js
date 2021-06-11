@@ -6,9 +6,9 @@ import { runInThisContext } from 'vm';
 const baseURL = 'https://unitednationsserver.herokuapp.com';
 
 class CountryDetail extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state= {
+        this.state = {
             currentCountry : "",
             list_resolutions : [],
             page_size : 10, 
@@ -137,10 +137,22 @@ class CountryDetail extends React.Component {
         let isCountry = false ;
         if (country != undefined){
             isCountry = true
-        };
+        }
 
-
-        if(this.state.loadingVotes) {
+        if(!isCountry) {
+            return (
+                <p>Please select a country from the sidebar.</p>
+            )
+        }
+        else if(this.state.year=="Select Year") {
+            return (
+                <div className="Country">
+                <h1> {country} </h1>
+                <p>Once the dropdown above loads, please select a year. (SELECT YEAR)</p>
+                </div>
+            )
+        }
+        else if(this.state.loadingVotes) {
             //this.showCountry(country);
             return (
                 <div className="Country">
@@ -149,56 +161,62 @@ class CountryDetail extends React.Component {
                 </div>
             )
         }
+        else {
+            let page = this.state.pageNum - 1; // 0-based
+            let display_countries = this.state.list_resolutions.slice(
+                page*this.state.page_size,
+                page*this.state.page_size + this.state.page_size);
 
-        let page = this.state.pageNum - 1; // 0-based
-        let display_countries = this.state.list_resolutions.slice(
-            page*this.state.page_size,
-            page*this.state.page_size + this.state.page_size);
+            return (
+                <div>
+                        
+                    <div className="Country">
+                        <h1> {country} </h1>
 
-        return (
-            <div>
+                        {this.state.list_resolutions.length!=0 ?
+                            (
+                            <div>
+                                <div className = "the-votes-for-a-country">
+                                {display_countries.map(vote =>
+                                    <div className="country-vote-container" key={vote.resid}>
+                                        <p>
+                                        <b>
+                                        <Link to = {`/resolutions/${vote.resid}`}>
+                                            {vote.unres}{/*: {resolution.short}*/}
+                                        </Link>
+                                        </b>
+                                        </p>
+                                        <p>{vote.Countryname} voted {numToVote(vote.vote)} for {vote.unres} on {vote.date}</p>
+                                    </div> 
+                                )
+                                }
+                                </div>
+                                {/* page menu */}
+                                {isCountry ?
+                                    (this.state.list_resolutions.length != 0 ?
+                                        <div className = "country-page-menu">
+                                        {this.state.pageNum > 1 ?
+                                        <button onClick={this.PrevPage} className="seeMoreBtn">Previous</button>
+                                        :<p/>}
+
+                                        Showing Page: {this.state.pageNum} of {this.state.pageMax}
+
+                                        {this.state.pageNum < this.state.pageMax ?
+                                        <button onClick={this.NextPage} className="seeMoreBtn">Next</button>
+                                        :<p/>}
+                                        </div> 
+                                    : 'No results.')
+
+                                    : 'Please select a country from the left panel'}
+                            </div>
+                            )
+                        : <p>Please select a year. (NO RESOLUTIONS)</p>}
+                    </div>
+
                     
-                <div className="Country">
-                    <h1> {country} </h1>
-
-                    {this.state.list_resolutions.length!=0 ?
-                        <div className = "the-votes-for-a-country">
-                        {display_countries.map(vote =>
-                            <div className="country-vote-container" key={vote.resid}>
-                                <p>
-                                <b>
-                                <Link to = {`/resolutions/${vote.resid}`}>
-                                    {vote.unres}{/*: {resolution.short}*/}
-                                </Link>
-                                </b>
-                                </p>
-                                <p>{vote.Countryname} voted {numToVote(vote.vote)} for {vote.unres} on {vote.date}</p>
-                            </div> 
-                        )
-                        }
-                        </div>
-                    : <p>Loading votes...</p>}
                 </div>
-
-                {/* page menu */}
-                {isCountry ?
-                    (this.state.list_resolutions.length != 0 ?
-                        <div className = "country-page-menu">
-                        {this.state.pageNum > 1 ?
-                        <button onClick={this.PrevPage} className="seeMoreBtn">Previous</button>
-                        :<p/>}
-
-                        Showing Page: {this.state.pageNum} of {this.state.pageMax}
-
-                        {this.state.pageNum < this.state.pageMax ?
-                        <button onClick={this.NextPage} className="seeMoreBtn">Next</button>
-                        :<p/>}
-                        </div> 
-                    : 'No results.')
-
-                    : 'Please select a country from the left panel'}
-            </div>
-        )
+            )
+        }
     } 
 }
 
