@@ -181,6 +181,7 @@ class CountryDetail extends React.Component {
     }
 
     render() {
+        console.log("capital : ", this.state.capital)
 
         let blocs = this.state.blocs
         console.log("blocs:", blocs)
@@ -229,17 +230,15 @@ class CountryDetail extends React.Component {
                     <div className="Country">
                         <div className = "countryheader">
                         <h1> {country} </h1>
+                        {this.state.capital === "" ? <p></p> : 
+                        <div className = "detailedheader">
                         <p> {country} with its capital {this.state.capital} is a country in {this.state.region} specifically in the {this.state.subregion} region.</p>
                         {this.state.gini != "" ? <p>  {country} has a Gini of {this.state.gini} </p> : <p></p>}
-                        <p> {country} has a population of {this.state.population} and an area of {this.state.area} km. {country} uses mainly the </p>
-                        {/* {currency_main.name} ({currency_main.code}) as its main currency with the symbol : {currency_main.symbol} </p> */}
+                        <p> {country} has a population of {this.state.population} and an area of {this.state.area} km. {country} </p>
                         {blocs.length > 0 ?  <p> {country} is part of  {this.state.blocs.map((o)=><p> {o.name} which is also known as {o.acronym} </p>)} </p>  : <p></p> }
-                        
                         <div> There is/are {this.state.languages.length} official languages which is/are : {this.state.languages.length>0 ?  this.state.languages.map((l) => <p> {l.name} (natively known as {l.nativeName}) </p>)  : <p> [no languages ]</p> } </div>
-                        {/* <div> {country} is borders {this.state.borders.length != 0 ? this.state.borders.forEach((b) =>  <p> b </p>) : <p> 2 </p> } </div> */}
-           
-
                         <img src={this.state.flag} alt="Country flag"/> 
+                        </div>}
 
                         </div>
 
