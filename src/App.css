@@ -126,6 +126,12 @@
   height: 70px;
   background-color: #F2F2F2;
   /*background-color: orange;*/
+  vertical-align: center;
+}
+
+.welcome-div {
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 .sortOptions select {
@@ -239,7 +245,6 @@ aside {
 */
 
 .sortBox select {
-
   background-color: #009edb;
   color: white;
   padding: 12px;
@@ -252,6 +257,10 @@ aside {
   appearance: button;
   outline: none;
   display: initial;
+}
+
+.sortBox {
+  vertical-align: center;
 }
 
 .res-year-select {

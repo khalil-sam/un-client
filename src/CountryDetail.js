@@ -204,7 +204,7 @@ class CountryDetail extends React.Component {
             return (
                 <div className="Country">
                 <h1> {country} </h1>
-                <p>Once the dropdown above loads, please select a year. (SELECT YEAR)</p>
+                <p>Once the dropdown above loads (this may take up to 10 seconds), please select a year.</p>
                 </div>
             )
         }
@@ -229,22 +229,34 @@ class CountryDetail extends React.Component {
                         
                     <div className="Country">
                         <div className = "countryheader">
-                        <h1> {country} </h1>
-                        {this.state.capital === "" ? <p></p> : 
-                        <div className = "detailedheader">
-                        <p> {country} with its capital {this.state.capital} is a country in {this.state.region} specifically in the {this.state.subregion} region.</p>
-                        {this.state.gini != "" ? <p>  {country} has a Gini of {this.state.gini} </p> : <p></p>}
-                        <p> {country} has a population of {this.state.population} and an area of {this.state.area} km. {country} </p>
-                        {blocs.length > 0 ?  <p> {country} is part of  {this.state.blocs.map((o)=><p> {o.name} which is also known as {o.acronym} </p>)} </p>  : <p></p> }
-                        <div> There is/are {this.state.languages.length} official languages which is/are : {this.state.languages.length>0 ?  this.state.languages.map((l) => <p> {l.name} (natively known as {l.nativeName}) </p>)  : <p> [no languages ]</p> } </div>
-                        <img src={this.state.flag} alt="Country flag"/> 
-                        </div>}
-
+                            <h1> {country} </h1>
+                            {this.state.capital === "" ? <p></p> : 
+                            <div className = "detailedheader">
+                                <img src={this.state.flag} width="500px" alt="Country flag"/> 
+                                <p> {country} is a country in the {this.state.subregion} region of {this.state.region}.</p>
+                                <p>Its capital is {this.state.capital}.</p>
+                                {this.state.gini != ""
+                                    ? <p>  {country} has a Gini of {this.state.gini} </p>
+                                    : <p></p>}
+                                <p> {country} has a population of {this.state.population} and an area of {this.state.area} km.</p>
+                                {blocs.length > 0
+                                    ?  <div>
+                                            {country} is part of:
+                                                <ul>
+                                                    {this.state.blocs.map((o)=> {
+                                                    <li key={o.name}> {o.name} which is also known as {o.acronym} </li>
+                                                    })}
+                                                </ul>
+                                        </div>
+                                    : <p></p> }
+                                <div> There is/are {this.state.languages.length} official languages which is/are: {this.state.languages.length>0 ?  this.state.languages.map((l) => <p key={l.name}> {l.name} (natively known as {l.nativeName}) </p>)  : <p> [no languages ]</p> } </div>
+                            </div>}
                         </div>
 
                         {this.state.list_resolutions.length!=0 ?
                             (
                             <div>
+                                <h2>Voting Record</h2>
                                 <div className = "the-votes-for-a-country">
                                 {display_countries.map(vote =>
                                     <div className="country-vote-container" key={vote.resid}>
@@ -279,7 +291,7 @@ class CountryDetail extends React.Component {
                                     : 'Please select a country from the left panel'}
                             </div>
                             )
-                        : <p>Please select a year. (NO RESOLUTIONS)</p>}
+                        : <p>No resolutions found. Please select a year.</p>}
                     </div>
 
                     
