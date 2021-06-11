@@ -46,7 +46,6 @@ class CountryDetail extends React.Component {
 //   };
 
     doDropdownChange(year) {
-        console.log("CountryDetail: doDropdownChange");
         this.setState({ year: year, loadingVotes : true }, 
         ()=>
         { this.showCountry(this.state.currentCountry)})
@@ -90,12 +89,11 @@ class CountryDetail extends React.Component {
 
 
 
-                this.setState({currentCountry : country, years:years, loadingOptions: false}, () => {
-                    this.showVotes(this.state.currentCountry);
-                });
-                console.log("country", this.state.country)
-                console.log("year", this.state.year)
-                console.log("country current", this.state.currentCountry)
+
+                this.setState({currentCountry : country, years:years, loadingOptions: false});
+
+                this.showCountry(this.state.currentCountry);
+
             }).catch(err => {
             });
     }
@@ -113,9 +111,10 @@ class CountryDetail extends React.Component {
         fetch(s)
         .then(response => response.json())
         .then(votes_list => {
+            console.log(votes_list)
 
             this.setState({
-                list_resolutions : votes_list,
+                list_resolutions : votes_list.filter(res => res.unres),
                 noResponse : (votes_list.length==0),
                 pageNum: 1,
                 pageMax: Math.ceil(votes_list.length / this.state.page_size),

@@ -39,8 +39,7 @@ class SortBar extends React.Component {
     }
 
     handleDropdownChange = (e) => {
-        console.log("SORT BAR: handleDropdownChange");
-        console.log("e.target.value: ", e.target.value)
+
         this.props.doDropDownChange(e.target.value);
     }
 
@@ -51,7 +50,6 @@ class SortBar extends React.Component {
             console.log("WHERE IS IT??");
             return;
         }
-        console.log("SHOULD BE HERE:"+this.doDropDownChange);
 
         return (
             <div className = "optionsBox"> 

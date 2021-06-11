@@ -20,26 +20,21 @@ class Countriespage extends React.Component {
         this.doDropDownChange = this.doDropDownChange.bind(this);
     }
     handleCountrySelection(country){
-        console.log("this is workig:", country)
         this.setState({currentCountry : country})
     }
 
     updateYears = (years) => {
-        console.log("entered update years")
         this.setState({years: years});
     }
 
     doDropDownChange = (year) => {
-        console.log("new year value : ", year)
         this.setState({year: year})
-        console.log("state year:" , this.state.year)
 
     }
 
 
 
     render () {
-        console.log("do state year change? :", this.state.years)
 
         return (
             <div>
