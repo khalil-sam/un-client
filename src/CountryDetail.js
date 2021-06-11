@@ -28,8 +28,8 @@ class CountryDetail extends React.Component {
 
         this.showCountry(this.props.match.params.countryID);
 
-        console.log("CountryDetail props: "+JSON.stringify(this.props));
     }
+
 
     PrevPage = () => {
         if(this.state.pageNum > 1) {
@@ -49,11 +49,15 @@ class CountryDetail extends React.Component {
 
     doDropdownChange(year) {
         console.log("CountryDetail: doDropdownChange");
-        this.setState({ year: year, loadingVotes : true });
-        this.showCountry(this.state.currentCountry);
+        this.setState({ year: year, loadingVotes : true }, 
+        ()=>
+        { this.showCountry(this.state.currentCountry)})
+        
     }
 
+
     componentDidUpdate(prevProps) {
+       
         if(this.props.year != prevProps.year) {
             this.doDropdownChange(this.props.year);
         }
@@ -69,28 +73,31 @@ class CountryDetail extends React.Component {
             fetch(path).then(result => {
                 return result = result.json();
             }).then(result => {
-                console.log("FINDING A RESULT:"+JSON.stringify(result[0]));
                 firstYear = parseInt(result[0].year);
 
                 let years = [];
                 for (let i=firstYear; i<= 2019; i++) {
                     years.push(i.toString());
                 }
-                console.log("NEW YEARS: "+years);
                 this.props.updateYears(years);
 
 
 
                 this.setState({currentCountry : country, years:years, loadingOptions: false});
+                console.log("country", this.state.country)
+                console.log("year", this.state.year)
+                console.log("country current", this.state.currentCountry)
+                this.showCountry(this.state.currentCountry);
             }).catch(err => {
-                console.log("ERROR IN FINDING FIRSTYEAR :(");
             });
 
-            this.showCountry(country);
+            
+
         }
     }
 
     showCountry = (country) => {
+
         let s = baseURL + '/votes/country/' + country
             + "?pagesize=" + this.state.page_size
             + "&year=" + this.state.year
@@ -98,6 +105,7 @@ class CountryDetail extends React.Component {
 
         console.log("fetch :", s);
         let res = [];
+
         fetch(s)
         .then(response => response.json())
         .then(votes_list => {
@@ -110,14 +118,21 @@ class CountryDetail extends React.Component {
                 loading:false,
                 loadingVotes:false
             })
-            console.log("return res:", votes_list);
         })
         .catch(thing => {
             console.log("PROB in showCOUNTRY!! >:("+thing);
         });
+            
+
+
+
+
+
+
     }
 
     render() {
+
         
         let country = this.props.match.params.countryID;
 
@@ -125,6 +140,7 @@ class CountryDetail extends React.Component {
         if (country != undefined){
             isCountry = true
         };
+
 
         if(this.state.loadingVotes) {
             //this.showCountry(country);
@@ -136,14 +152,10 @@ class CountryDetail extends React.Component {
             )
         }
 
-        console.log("NOT LOADING: country = " + country);
-
-        console.log("list_resolutions len:"+this.state.list_resolutions.length);
         let page = this.state.pageNum - 1; // 0-based
         let display_countries = this.state.list_resolutions.slice(
             page*this.state.page_size,
             page*this.state.page_size + this.state.page_size);
-        console.log("display_countries len: "+display_countries.length);
 
         return (
             <div>
