@@ -20,8 +20,7 @@ class Countries extends React.Component {
             })
         })
 
-        console.log("hello",this.state.countries);
-        console.log(typeof this.state.countries)
+
         this.handleSelection = this.handleSelection.bind(this)
     }
 

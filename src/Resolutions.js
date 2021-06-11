@@ -29,7 +29,6 @@ class Resolutions extends React.Component {
             years.push(i.toString());
         }
         this.statics.years = years;
-        //console.log("years:"+this.statics.years);
     }
 
     prevPage = () => {
@@ -51,10 +50,8 @@ class Resolutions extends React.Component {
     }
 
     handleDropdownChange(e) {
-        console.log("Resolutions handleDropdownChange: year="+e.target.value);
 
         if(e.target.value==defaultTxt) {
-            console.log("RESDROP BACK TO DEFAULT");
             this.setState({
                 year : defaultTxt,
                 resolutions : []
@@ -68,8 +65,9 @@ class Resolutions extends React.Component {
             fetch (s)
             .then(response => response.json())
             .then(r => {
+
                 this.setState({
-                    resolutions : r,
+                    resolutions : r.filter(res => res.short != ""),
                     pageNum: 1,
                     pageMax: Math.ceil(r.length / this.state.pageSize)
                 })
@@ -80,26 +78,14 @@ class Resolutions extends React.Component {
 
     render () {
 
-        /*
-        let s = 'http://localhost:8081/resolutions' + "?year=" + this.state.year
-        fetch (s)
-        .then(response => response.json())
-        .then(r => {
-            this.setState({
-                resolutions : r
-            })
-        })
-        */
 
         console.log("state.resolutions:",this.state.resolutions);
-        /*this.statics.years.map(yearStr => {
-            console.log("yearStr:"+yearStr);
-        })*/
 
         let page = this.state.pageNum - 1; // 0-based
         let page_resolutions = this.state.resolutions.slice(
             page*this.state.pageSize,
             page*this.state.pageSize + this.state.pageSize);
+        
 
         return (
 

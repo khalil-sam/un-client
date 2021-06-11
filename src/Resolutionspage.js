@@ -14,7 +14,6 @@ class Resolutionspage extends React.Component {
         this.handleResolutionSelection = this.handleResolutionSelection.bind(this)
     }
     handleResolutionSelection(resolution){
-        console.log("this is workig:", resolution.resid)
         this.setState({currentResolution : resolution})
     }
 
