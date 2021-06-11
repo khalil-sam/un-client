@@ -95,7 +95,7 @@ class ResolutionDetail extends React.Component {
         console.log("resolution:", resolution);
         if (resolution === undefined) {
             return(<div>
-            No resolutions selected 
+            No resolutions selected; select a year from the dropdown on the left to start.
             </div>)
         }
         console.log("this is resolution:", resolution);

@@ -14,10 +14,9 @@ class SortBar extends React.Component {
             loading: true,
             years: []
         }
-        // this.doDropdownChange = this.doDropdownChange.bind(this);
-        // this.handleDropdownChange = this.handleDropdownChange.bind(this);
-
-
+        console.log("SORT BAR PROPS:"+JSON.stringify(this.props));
+        //this.handleDropdownChange = this.handleDropdownChange.bind(this);
+        //this.doDropDownChange = this.props.doDropDownChange.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -40,12 +39,11 @@ class SortBar extends React.Component {
 
     handleDropdownChange = (e) => {
         console.log("SORT BAR: handleDropdownChange");
-        console.log("e.target.value: ", e.target.value)
-        this.props.doDropDownChange(e.target.value);
+        console.log("SHOULD BE IN THE FUNC:"+this.props.doDropDownChange);
+        this.doDropdownChange(e);
     }
 
     render () {
-
 
         if(this.props.doDropDownChange==undefined) {
             console.log("WHERE IS IT??");
@@ -54,17 +52,16 @@ class SortBar extends React.Component {
         console.log("SHOULD BE HERE:"+this.doDropDownChange);
 
         return (
-            <div className = "box"> 
+            <div className = "sortBox"> 
                     {!this.state.loadingOptions ?
-                        <select id="year" name="year" onChange={this.handleDropdownChange}>
-  
+                        <select id="year" name="year" className="yearSelect" onChange={this.handleDropdownChange}>
+                            <option>{this.state.currentYear}</option>
 
                             {
                                 this.state.years.map(yearStr => 
                                     <option value={yearStr} key={yearStr}>{yearStr}</option>
                                 )
                             }
-                            
 
                         </select>
                     : <div class="yearSelDiv">Loading...</div>}
@@ -73,4 +70,4 @@ class SortBar extends React.Component {
     }
 }
 
-export default withRouter(SortBar);
+export default SortBar;
