@@ -19,7 +19,22 @@ class CountryDetail extends React.Component {
             loadingVotes: true,
             pageNum : 1,
             pageMax: 1,
-            years: []
+            years: [],
+            code : "",
+            details: "",
+            flag : "", 
+            capital : "",
+            region : "",
+            subregion : "",
+            area : "",
+            currencies : [],
+            borders : [],
+            gini : "", 
+            languages : [],
+            population : "",
+            blocs : [],
+            timezones : [], 
+            currency_name : ""
         }
         this.PrevPage = this.PrevPage.bind(this);
         this.NextPage = this.NextPage.bind(this);
@@ -106,9 +121,18 @@ class CountryDetail extends React.Component {
         fetch(s)
         .then(response => response.json())
         .then(votes_list => {
-            console.log(votes_list)
+            console.log("this is votes_list",votes_list)
+            let first_v =  votes_list[0]
+            if (first_v != undefined){
+                let countrycode = first_v.Country
+                console.log(countrycode)
+                this.setState({code : countrycode})
+            }
+            
+
 
             this.setState({
+                // code : votes_list[0].Country,
                 list_resolutions : votes_list.filter(res => res.unres),
                 noResponse : (votes_list.length==0),
                 pageNum: 1,
@@ -117,22 +141,53 @@ class CountryDetail extends React.Component {
                 loadingVotes:false
             })
         })
+        .then(d => {
+            if (this.state.code != ""){
+            let v = "https://restcountries.eu/rest/v2/alpha/" + this.state.code
+            return fetch(v)
+            }})
+        .then( (response) => {
+        return(response.json())
+        })
+        .then( (body) => {
+        console.log(body)
+        this.setState({details : body, 
+        flag : body.flag,
+        capital : body.capital,
+        region : body.region,
+        subregion : body.subregion,
+        area : body.area,
+        currencies : body.currencies,
+        borders : body.borders,
+        gini : body.gini, 
+        languages : body.languages,
+        population : body.population,
+        blocs : body.regionalBlocs,
+        timezones : body.timezones}
+        )
+        })
+        
+        
+
+
+        
         .catch(thing => {
             console.log("PROB in showCOUNTRY!! >:("+thing);
         });
-            
-
-
-
-
+        
+        
 
 
     }
 
     render() {
 
+        let blocs = this.state.blocs
+        console.log("blocs:", blocs)
+
         
         let country = this.props.match.params.countryID;
+        let country_details = this.state.detail;
 
         let isCountry = false ;
         if (country != undefined){
@@ -161,6 +216,7 @@ class CountryDetail extends React.Component {
                 </div>
             )
         }
+
         else {
             let page = this.state.pageNum - 1; // 0-based
             let display_countries = this.state.list_resolutions.slice(
@@ -171,7 +227,21 @@ class CountryDetail extends React.Component {
                 <div>
                         
                     <div className="Country">
+                        <div className = "countryheader">
                         <h1> {country} </h1>
+                        <p> {country} with its capital {this.state.capital} is a country in {this.state.region} specifically in the {this.state.subregion} region.</p>
+                        {this.state.gini != "" ? <p>  {country} has a Gini of {this.state.gini} </p> : <p></p>}
+                        <p> {country} has a population of {this.state.population} and an area of {this.state.area} km. {country} uses mainly the </p>
+                        {/* {currency_main.name} ({currency_main.code}) as its main currency with the symbol : {currency_main.symbol} </p> */}
+                        {blocs.length > 0 ?  <p> {country} is part of  {this.state.blocs.map((o)=><p> {o.name} which is also known as {o.acronym} </p>)} </p>  : <p></p> }
+                        
+                        <div> There is/are {this.state.languages.length} official languages which is/are : {this.state.languages.length>0 ?  this.state.languages.map((l) => <p> {l.name} (natively known as {l.nativeName}) </p>)  : <p> [no languages ]</p> } </div>
+                        {/* <div> {country} is borders {this.state.borders.length != 0 ? this.state.borders.forEach((b) =>  <p> b </p>) : <p> 2 </p> } </div> */}
+           
+
+                        <img src={this.state.flag} alt="Country flag"/> 
+
+                        </div>
 
                         {this.state.list_resolutions.length!=0 ?
                             (
