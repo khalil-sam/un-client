@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Link, Route, Switch, useParams, withRouter } from 'react-router-dom';
+import Chart from "react-google-charts";
 
 const VoteTable = lazy(() => import('./VoteTable'));
 
@@ -119,6 +120,7 @@ class ResolutionDetail extends React.Component {
                 </div> 
 
                 <h2>Votes</h2>
+
                 <VoteTable votes = {this.state.votes}/>
             </div>
         )
