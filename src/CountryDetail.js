@@ -25,7 +25,9 @@ class CountryDetail extends React.Component {
         this.NextPage = this.NextPage.bind(this);
         this.doDropdownChange = this.doDropdownChange.bind(this);
         this.showCountry = this.showCountry.bind(this);
-        this.showVotes = this.showVotes.bind(this);
+
+        this.showCountry(this.props.match.params.countryID);
+
     }
 
 
@@ -49,11 +51,9 @@ class CountryDetail extends React.Component {
         this.setState({ year: year, loadingVotes : true }, 
         ()=>
         { this.showCountry(this.state.currentCountry)})
+        
     }
 
-    componentDidMount() {
-        this.showCountry(this.props.match.params.countryID);
-    }
 
     componentDidUpdate(prevProps) {
        
@@ -62,18 +62,11 @@ class CountryDetail extends React.Component {
         }
 
         let country = this.props.match.params.countryID;
-
         if(country != prevProps.match.params.countryID) {
-            this.setState({loadingOptions: true}, () => {
-                this.showCountry(country);
-            });
-        }
-    }
+            this.setState({loadingOptions: true});
 
-    showCountry = (country) => {
-        this.setState({loadingVotes: true});
 
-        let firstYear = 1946;
+            let firstYear = 1946;
             let path = baseURL + '/votes/country/' + country
             + "?pagesize=1";
             fetch(path).then(result => {
@@ -89,16 +82,18 @@ class CountryDetail extends React.Component {
 
 
 
-
                 this.setState({currentCountry : country, years:years, loadingOptions: false});
 
                 this.showCountry(this.state.currentCountry);
-
             }).catch(err => {
             });
+
+            
+
+        }
     }
 
-    showVotes = (country) => {
+    showCountry = (country) => {
 
         let s = baseURL + '/votes/country/' + country
             + "?pagesize=" + this.state.page_size
@@ -125,6 +120,12 @@ class CountryDetail extends React.Component {
         .catch(thing => {
             console.log("PROB in showCOUNTRY!! >:("+thing);
         });
+            
+
+
+
+
+
 
     }
 
