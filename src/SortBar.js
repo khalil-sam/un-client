@@ -54,10 +54,10 @@ class SortBar extends React.Component {
         console.log("SHOULD BE HERE:"+this.doDropDownChange);
 
         return (
-            <div className = "box"> 
+            <div className = "optionsBox"> 
                     {!this.state.loadingOptions ?
                         <select id="year" name="year" onChange={this.handleDropdownChange}>
-  
+                            <option value={this.state.currentYear} key={this.state.currentYear}>{this.state.currentYear}</option>
 
                             {
                                 this.state.years.map(yearStr => 
