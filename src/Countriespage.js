@@ -12,10 +12,12 @@ class Countriespage extends React.Component {
         super(props);
         this.state= {
             currentCountry : {},
-            year : 1946
+            year : 1946,
+            years : "", 
+            work : 0
         }
         this.handleCountrySelection = this.handleCountrySelection.bind(this)
-        //this.doDropDownChange = this.doDropDownChange.bind(this);
+        this.doDropDownChange = this.doDropDownChange.bind(this);
     }
     handleCountrySelection(country){
         console.log("this is workig:", country)
@@ -23,16 +25,21 @@ class Countriespage extends React.Component {
     }
 
     updateYears = (years) => {
+        console.log("entered update years")
         this.setState({years: years});
     }
 
-    doDropDownChange = (e) => {
-        console.log("Countriespage: doDropDownChange");
-        this.setState({year: e.target.value});
+    doDropDownChange = (year) => {
+        console.log("new year value : ", year)
+        this.setState({year: year})
+        console.log("state year:" , this.state.year)
+
     }
 
 
+
     render () {
+        console.log("do state year change? :", this.state.years)
 
         return (
             <div>
@@ -42,10 +49,11 @@ class Countriespage extends React.Component {
 
                 <div className="tabcontent">
                     <div className="sortOptions">
-                        <SortBar doDropDownChange={this.doDropDownChange} years={this.state.years}/>
+                    <SortBar doDropDownChange={this.doDropDownChange} years={this.state.years}/>
                     </div>
                     <main className="main" >
-                        <CountryDetail year={this.state.year} country = {this.state.currentCountry} updateYears={this.updateYears}/>
+                    
+                    <CountryDetail year={this.state.year} country = {this.state.currentCountry} updateYears={this.updateYears}/>
                     </main>
                 </div> 
             </div>       
