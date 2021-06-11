@@ -62,7 +62,7 @@ class Resolutions extends React.Component {
         }
         else {
             this.setState({ year: e.target.value });
-            let s = 'http://localhost:8081/resolutions'
+            let s = 'https://unitednationsserver.herokuapp.com/resolutions'
                 + "?year=" + e.target.value
                 + "&nolimit=1";
             fetch (s)

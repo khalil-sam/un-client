@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link, Route, Switch, useParams, withRouter } f
 import queryString from 'query-string';
 import { runInThisContext } from 'vm';
 
-const baseURL = 'http://localhost:8081';
+const baseURL = 'https://unitednationsserver.herokuapp.com';
 
 class CountryDetail extends React.Component {
     constructor(props){

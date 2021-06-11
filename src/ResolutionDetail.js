@@ -48,7 +48,7 @@ class ResolutionDetail extends React.Component {
     showRes(resolution) {
         console.log("showRes");
 
-        const baseURL = 'http://localhost:8081';
+        const baseURL = 'https://unitednationsserver.herokuapp.com';
 
         let k =  baseURL + "/resolutions/resid/" + resolution
         let s = baseURL + '/r-votes/' + resolution;
