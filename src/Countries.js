@@ -11,7 +11,7 @@ class Countries extends React.Component {
             pageMax : 1
         }
 
-        fetch ('http://localhost:8081/votes/country')
+        fetch ('https://unitednationsserver.herokuapp.com/votes/country')
         .then(response => response.json())
         .then(c => {
             this.setState({
