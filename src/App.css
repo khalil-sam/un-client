@@ -124,7 +124,14 @@
 
 .sortOptions {
   height: 70px;
-  background-color: orange;
+  background-color: #F2F2F2;
+  /*background-color: orange;*/
+}
+
+.sortOptions select {
+  padding: 0px;
+  background-color: red;
+  color: green;
 }
 
 .yearSelDiv {
@@ -148,8 +155,13 @@
   overflow-y: auto;
 }
 
+aside {
+  background-color: #F2F2F2;
+}
+
 .country-list-label {
   text-align: center;
+  color: #4D4D4D;
 }
 
 .res-page-menu {
@@ -217,25 +229,20 @@
 
 */
 
+.sortBox select {
 
-.box {
-  position: relative;
-  top: 2%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.box select {
   background-color: #009edb;
   color: white;
   padding: 12px;
-  width: 250px;
+  /*width: 250px;*/
   border: none;
   font-size: 20px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  /*box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);*/
+  width: 150px;
   -webkit-appearance: button;
   appearance: button;
   outline: none;
+  display: initial;
 }
 
 .res-year-select {
@@ -253,12 +260,12 @@
 }
 
 .box::before {
-  content: "\f13a";
+  /*content: "\f13a"; */
   font-family: FontAwesome;
-  position: absolute;
+  /*position: absolute; */
   top: 0;
   right: 0;
-  width: 20%;
+  width: 80%;
   height: 100%;
   text-align: center;
   font-size: 28px;
@@ -273,14 +280,28 @@
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.box select option {
+.sortBox select option {
   padding: 30px;
 }
+
+
 
 nav {
   display: grid;
   grid-auto-flow: column;
-  grid-column-gap: 15px
+  grid-column-gap: 15px;
+}
+
+nav a {
+  color: #4D4D4D;
+}
+
+nav a:hover {
+  background-color: #009edb;
+}
+
+.header {
+  border-bottom: 5px solid #009edb;
 }
 
 .vote-table {

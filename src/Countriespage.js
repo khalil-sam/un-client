@@ -45,7 +45,7 @@ class Countriespage extends React.Component {
                         <SortBar doDropDownChange={this.doDropDownChange} years={this.state.years}/>
                     </div>
                     <main className="main" >
-                    <CountryDetail year={this.state.year} country = {this.state.currentCountry} updateYears={this.updateYears}/>
+                        <CountryDetail year={this.state.year} country = {this.state.currentCountry} updateYears={this.updateYears}/>
                     </main>
                 </div> 
             </div>       

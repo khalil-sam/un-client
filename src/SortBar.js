@@ -16,7 +16,7 @@ class SortBar extends React.Component {
         }
         console.log("SORT BAR PROPS:"+JSON.stringify(this.props));
         //this.handleDropdownChange = this.handleDropdownChange.bind(this);
-        this.doDropDownChange = this.props.doDropDownChange.bind(this);
+        //this.doDropDownChange = this.props.doDropDownChange.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -39,7 +39,7 @@ class SortBar extends React.Component {
 
     handleDropdownChange = (e) => {
         console.log("SORT BAR: handleDropdownChange");
-        console.log("SHOULD BE IN THE FUNC:"+this.doDropDownChange);
+        console.log("SHOULD BE IN THE FUNC:"+this.props.doDropDownChange);
         this.doDropdownChange(e);
     }
 
@@ -52,9 +52,9 @@ class SortBar extends React.Component {
         console.log("SHOULD BE HERE:"+this.doDropDownChange);
 
         return (
-            <div className = "box"> 
+            <div className = "sortBox"> 
                     {!this.state.loadingOptions ?
-                        <select id="year" name="year" onChange={this.handleDropdownChange}>
+                        <select id="year" name="year" className="yearSelect" onChange={this.handleDropdownChange}>
                             <option>{this.state.currentYear}</option>
 
                             {
