@@ -1,6 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Link, Route, Switch, useParams, withRouter } from 'react-router-dom';
 import Chart from "react-google-charts";
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 
 
 function numToVote(num) {
@@ -126,6 +130,10 @@ class VoteTable extends React.Component {
     }*/
 
     render () {
+
+        const env = process.env;
+        console.log(`this is process ${process.env.REACT_APP_APIKEY}`);
+
         console.log("what is happening:", this.state.data_map)
 
         return (
@@ -135,7 +143,7 @@ class VoteTable extends React.Component {
                 height={'500px'}
                 chartType="GeoChart"
                 data= {this.state.data_map}
-                mapsApiKey="AIzaSyBpfC7ePrz5mCecl67iQ32xxK0LW7epLSM"
+                mapsApiKey={process.env.REACT_APP_APIKEY}
                 colors = {['red', 'green', 'yellow']}
                 rootProps={{ 'data-testid': '1' }}
                 
@@ -147,7 +155,7 @@ class VoteTable extends React.Component {
 />
             <div className="vote-table">
                 <div className="yes-col">
-                    <h4><center>Yes</center></h4>
+                    <h4><center>Yes <i class="far fa-check-circle"></i> </center></h4>
                     <ol>
                     {this.state.yesHTML.map(line => {
                         return line;
@@ -155,7 +163,7 @@ class VoteTable extends React.Component {
                     </ol>
                 </div>
                 <div className="no-col">
-                    <h4><center>No</center></h4>
+                    <h4><center>No <i class="far fa-times-circle"></i></center></h4>
 
                     <ol>
                     {this.state.noHTML.map(line => {
@@ -164,7 +172,7 @@ class VoteTable extends React.Component {
                     </ol>
                 </div>
                 <div className="abs-col">
-                    <h4><center>Abstain</center></h4>
+                    <h4><center>Abstain <i class="far fa-question-circle"></i></center></h4>
 
                     <ol>
                     {this.state.absHTML.map(line => {

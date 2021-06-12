@@ -133,6 +133,67 @@
   margin-left: 40px;
   margin-right: 40px;
 }
+.grid-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+}
+.grid-item {
+  height : 380px;
+}
+.grid-item-blue{
+  background-color: rgba(11,123,206,.65);
+  font-size: 30px;
+  text-align: center;
+}
+.grid-item .white{
+  background-color: white;
+  font-size: 30px;
+  text-align: center;
+}
+.grid-item .blue .p {
+  color : white;
+}
+#text-white{
+  color : white;
+  font-size :39px;
+  margin-left: 35px;
+  margin-bottom : 0;
+  margin-right: 35px;
+}
+#text-smaller{
+  color : white;
+  margin-left: 35px;
+  margin-right: 35px;
+  font-size : 17px;
+  margin-bottom : 25px;
+  margin-top : 35px;
+
+}
+#big-text{
+  color : rgba(11,123,206,.65);
+  margin-left: 35px;
+      margin-right: 35px;
+
+
+  /* margin-left: 35px;
+  margin-right: 35px; */
+  font-size : 39px;
+  /* margin-bottom : 25px;
+  margin-top : 35px; */
+}
+#detail-text{
+  color : black;
+  /* margin-left: 35px;
+  margin-right: 35px; */
+  font-size : 17px;
+  /* margin-bottom : 25px;
+  margin-top : 35px; */
+
+}
+
+
+
 
 .sortOptions select {
   background-color: #009edb;
@@ -147,6 +208,30 @@
   appearance: button;
   outline: none;
   display: initial;
+}
+.myButton {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
 }
 
 .yearSelDiv {
@@ -196,53 +281,77 @@ aside {
   margin-top:20px;
   text-align: center;
 }
-
-/*
-
-.seeMoreBtn:hover span {
-    opacity: 0;
-    transform: translateY(-100%)
+.hero {
+    background-size: cover;
+    height: 700px;
+    position: relative;
+    width : 100%
+    
 }
-
-.seeMoreBtn::before {
-    content: "";
-    background-color: 	green;
+.hero .overlay {
+    background-color: rgba(11,123,206,.65);
+    bottom: 0;
     height: 100%;
     left: 0;
     position: absolute;
+    right: 0 ;
     top: 0;
-    transform: translateY(100%);
-    transition: inherit;
     width: 100%;
-    transition: transform 0.5s cubic-bezier(1,.15,.34,.92)
 }
-
-.seeMoreBtn::after {
-    content: 'Next';
-    align-items: center;
-    display: flex;
+ .hero .video-wrapper {
+    bottom: 0;
     height: 100%;
-    justify-content: center;
     left: 0;
-    position: absolute;
+    overflow: hidden;
+    pointer-events: none;
+    position: relative;
+    right: 0;
     top: 0;
-    transition: inherit;
-    transform: translateY(100%);
     width: 100%;
 }
-
-.seeMoreBtn:hover::before {
-    transform: translateY(0) scale(3);
-    transition-delay: .025s;
+.wrapper .wrapper__video{
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
-.seeMoreBtn:hover::after {
-    opacity: 1;
-    color: orange;
-    transform: translateY(0);
+.hero .title {
+    position : absolute;
+    color: #fff;
+    line-height: 52px;
+    padding-bottom: 1rem;
+    text-transform: none;
 }
-
-*/
+#text{
+  position: absolute;
+  top: 50%;
+  left: 72%;
+  font-size: 70px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  width : 100%
+}
+#smallt{
+  position: absolute;
+  top: 65%;
+  left: 70%;
+  font-size: 25px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  width : 100%
+}
+#imglogo{
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  font-size: 25px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  width : 25%
+}
 
 .sortBox select {
   background-color: #009edb;
@@ -331,21 +440,37 @@ nav a:hover {
 
 .vote-table ol {
   list-style-type: none;
-  padding-left: 0;
+  padding-left: 5px;
+  margin-left: auto;
+margin-right: auto;
+  
 }
 
 .vote-table a {
   color: white;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .yes-col {
-  background-color : green;
+  
+
+background: rgb(0,228,1);
+background: linear-gradient(90deg, rgba(0,228,1,1) 44%, rgba(230,255,0,1) 100%);
+font-size: 25px;
 }
 
 .no-col {
-  background-color : maroon;
+background: rgb(228,0,0);
+background: linear-gradient(90deg, rgba(228,0,0,1) 44%, rgba(255,181,0,1) 100%);
+font-size: 25px;
+
 }
 
 .abs-col {
-  background-color : rgb(185, 185, 0);
+background: rgb(0,255,254);
+background: linear-gradient(90deg, rgba(0,255,254,1) 24%, rgba(0,255,143,1) 100%);
+font-size: 25px;
+
 }
+

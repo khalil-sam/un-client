@@ -35,6 +35,7 @@ class Countriespage extends React.Component {
 
 
     render () {
+        console.log("entered countries page")
 
         return (
             <div>
