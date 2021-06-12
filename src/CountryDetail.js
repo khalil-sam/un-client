@@ -272,7 +272,7 @@ class CountryDetail extends React.Component {
                                     ?  <div>
                                             {country} is part of:
                                                 
-                                                    {this.state.blocs.map((o)=> <i>
+                                                    {this.state.blocs.map((o)=> <i key={o.name}>
                                                       {o.name} which is also known as {o.acronym} </i>
                                                     )}
                                                 

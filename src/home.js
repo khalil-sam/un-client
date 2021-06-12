@@ -7,10 +7,10 @@ class home extends React.Component {
 
         return (
             <div>
-    <section className = "hero" className = "hero">
+    <section class = "hero" className = "hero">
         <div class="video-wrapper">
-            <div className="wrapper">
-                <iframe title="Video_Website Video 2021_Web_16x9_Draft 1" src="https://player.vimeo.com/video/516845835?dnt=1&amp;app_id=122963&amp;controls=0&amp;hd=1&amp;autohide=1&amp;background=1&amp;autoplay=1" width="100%" height="900" border-left-width= "900"  allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true">
+            <div class="wrapper">
+                <iframe title="Video_Website Video 2021_Web_16x9_Draft 1" src="https://player.vimeo.com/video/516845835?dnt=1&amp;app_id=122963&amp;controls=0&amp;hd=1&amp;autohide=1&amp;background=1&amp;autoplay=1" width="100%" height="900" border-left-width= "900"  allow="autoplay; fullscreen; picture-in-picture" allowFullScreen={false}>
                 </iframe>
             </div>
             
