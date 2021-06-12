@@ -70,6 +70,29 @@ class CountryDetail extends React.Component {
         
     }
 
+    componentDidMount() {
+        let country = this.props.match.params.countryID;
+
+        this.setState({loadingOptions: true});
+            let firstYear = 1946;
+            let path = baseURL + '/votes/country/' + country
+            + "?pagesize=1";
+            fetch(path).then(result => {
+                return result = result.json();
+            }).then(result => {
+                firstYear = parseInt(result[0].year);
+                let years = [];
+                for (let i=firstYear; i<= 2019; i++) {
+                    years.push(i.toString());
+                }
+                this.props.updateYears(years);
+                this.setState({currentCountry : country, years:years, loadingOptions: false});
+                this.showCountry(this.state.currentCountry);
+
+            }).catch(err => {
+        });
+    }
+
 
     componentDidUpdate(prevProps) {
         let h = (this.state.years.length === 0)
@@ -80,6 +103,7 @@ class CountryDetail extends React.Component {
 
         let country = this.props.match.params.countryID;
         if(country != prevProps.match.params.countryID) {
+
             this.setState({loadingOptions: true});
             let firstYear = 1946;
             let path = baseURL + '/votes/country/' + country
@@ -95,9 +119,9 @@ class CountryDetail extends React.Component {
                 this.props.updateYears(years);
                 this.setState({currentCountry : country, years:years, loadingOptions: false});
                 this.showCountry(this.state.currentCountry);
+
             }).catch(err => {
             });
-
         }
 
     }
@@ -198,7 +222,7 @@ class CountryDetail extends React.Component {
             return (
                 <div className="Country">
                 <h1> {country} </h1>
-                <p>Once the dropdown above loads (this may take up to 10 seconds), please select a year.</p>
+                <p>Once the dropdown above displays multiple options (this may take up to 5 seconds), please select a year.</p>
                 </div>
             )
         }
