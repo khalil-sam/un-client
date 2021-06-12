@@ -72,6 +72,7 @@ class CountryDetail extends React.Component {
 
     componentDidMount() {
         let country = this.props.match.params.countryID;
+        let years = [];
 
         this.setState({loadingOptions: true});
             let firstYear = 1946;
@@ -81,15 +82,17 @@ class CountryDetail extends React.Component {
                 return result = result.json();
             }).then(result => {
                 firstYear = parseInt(result[0].year);
-                let years = [];
                 for (let i=firstYear; i<= 2019; i++) {
                     years.push(i.toString());
                 }
                 this.props.updateYears(years);
-                this.setState({currentCountry : country, years:years, loadingOptions: false});
-                this.showCountry(this.state.currentCountry);
-
-            }).catch(err => {
+            })
+            .then(thing => {
+                this.setState({currentCountry : country, years:years}, () => {
+                    this.showCountry(this.state.currentCountry);
+                });
+            })
+            .catch(err => {
         });
     }
 
@@ -104,6 +107,7 @@ class CountryDetail extends React.Component {
         let country = this.props.match.params.countryID;
         if(country != prevProps.match.params.countryID) {
 
+            let years = [];
             this.setState({loadingOptions: true});
             let firstYear = 1946;
             let path = baseURL + '/votes/country/' + country
@@ -112,15 +116,17 @@ class CountryDetail extends React.Component {
                 return result = result.json();
             }).then(result => {
                 firstYear = parseInt(result[0].year);
-                let years = [];
                 for (let i=firstYear; i<= 2019; i++) {
                     years.push(i.toString());
                 }
                 this.props.updateYears(years);
-                this.setState({currentCountry : country, years:years, loadingOptions: false});
-                this.showCountry(this.state.currentCountry);
-
-            }).catch(err => {
+            })
+            .then(thing => {
+                this.setState({currentCountry : country, years:years}, () => {
+                    this.showCountry(this.state.currentCountry);
+                });
+            })
+            .catch(err => {
             });
         }
 
@@ -145,8 +151,6 @@ class CountryDetail extends React.Component {
                 this.setState({code : countrycode})
             }
             
-
-
             this.setState({
                 // code : votes_list[0].Country,
                 list_resolutions : votes_list.filter(res => res.unres),
@@ -179,15 +183,11 @@ class CountryDetail extends React.Component {
         languages : body.languages,
         population : body.population,
         blocs : body.regionalBlocs,
-        timezones : body.timezones}
-        )
-
+        timezones : body.timezones});
         })
-        
-        
-
-
-        
+        .then(() => {
+            this.setState({loadingOptions: false});
+        })
         .catch(thing => {
             console.log("PROB in showCOUNTRY!! >:("+thing);
         });
@@ -226,6 +226,14 @@ class CountryDetail extends React.Component {
                 </div>
             )
         }
+        else if(this.state.loadingOptions) {
+            return (
+                <div className="Country">
+                <h1> {country} </h1>
+                <p>Loading...</p>
+                </div>
+            )
+        }
         else if(this.state.loadingVotes) {
             //this.showCountry(country);
             return (
@@ -246,6 +254,9 @@ class CountryDetail extends React.Component {
                 <div>
                         
                     <div className="Country">
+                    {this.state.list_resolutions.length!=0 ?
+                    (
+                        <div>
                         <div className = "countryheader">
                             <h1> {country} </h1>
                             {this.state.capital == undefined ? <p></p> : 
@@ -271,8 +282,8 @@ class CountryDetail extends React.Component {
                             </div>}
                         </div>
 
-                        {this.state.list_resolutions.length!=0 ?
-                            (
+                        
+                            
                             <div>
                                 <h2>Voting Record for {this.state.currentCountry} for the year {this.state.year}</h2>
                                 <div className = "the-votes-for-a-country">
@@ -308,11 +319,10 @@ class CountryDetail extends React.Component {
 
                                     : 'Please select a country from the left panel'}
                             </div>
-                            )
-                        : <p>No resolutions found. Please select a year.</p>}
+                            </div>
+                        )
+                        : <p>No resolutions found for {this.state.currentCountry} in the previously-selected year. Please select a valid year from the dropdown.</p>}
                     </div>
-
-                    
                 </div>
             )
         }
