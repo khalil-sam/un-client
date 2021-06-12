@@ -44,6 +44,7 @@ class SortBar extends React.Component {
     }
 
     render () {
+        console.log("entered sort bar")
 
 
         if(this.props.doDropDownChange==undefined) {
