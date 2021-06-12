@@ -132,7 +132,6 @@ class VoteTable extends React.Component {
     render () {
 
         const env = process.env;
-        console.log(`this is process ${process.env.REACT_APP_APIKEY}`);
 
         console.log("what is happening:", this.state.data_map)
 
